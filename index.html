@@ -2,9 +2,8 @@
 <html lang="en">
 
 <head>
-<title>BTC Portfolio</title>
+<title>Portfolio</title>
 <meta charset="utf-8">
-<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
 <meta name="viewport" content="width=device-width, initial-scale = 1.0,
 maximum-scale=1.0, user-scalable=no" />
 
@@ -28,21 +27,16 @@ maximum-scale=1.0, user-scalable=no" />
 
 <!--Underscore-->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/underscore@1.13.1/underscore-umd-min.js"></script>
- 
 </head>
 
-
 <body>
-
 <div class="container">
-
 <div class="row">
-
 <div class="col-md-4">
   <header>
-    <h1>
+    <h2>
       <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoCGG7mO6bQ7OE7T4DAR5ssdJ5BFgeLVjnuWlFdIE&s=0" style="height: 30px; width: 30px; margin-left:10px; margin-top: -10px"/>
-      BTC Portfolio</h1>
+      BTC</h2>
   </header>
   <div>
   <form action="/add" method="POST" id="addressForm">
@@ -64,7 +58,6 @@ maximum-scale=1.0, user-scalable=no" />
       <button type ="submit" id="submitButton" class="btn btn-primary">Submit</button>
       </div>
       <br/>
-      <br/>
       <div>&#8383;
        <span id="balanceBTC" style="padding: 10px; border: 2px solid orange; width: 340px">0</span>
       </div>
@@ -73,15 +66,15 @@ maximum-scale=1.0, user-scalable=no" />
   </div>
 
   <header>
-    <h1>
+    <h2>
       <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqYGDCoZfjGNUFVONJkyzqFFKZwlgDlTYHiGSt4JU&s=0" style="height: 30px; width: 20px; margin-left:10px; margin-top: -10px"/>
-      ETH Portfolio</h1>
+      ETH</h2>
   </header>
 
       <h3>Connect to Metamask.</h3>
       <button id="connectButton" class="btn btn-primary">
 
-      <img  src="https://i0.wp.com/kindalame.com/wp-content/uploads/2021/05/metamask-fox-wordmark-horizontal.png?resize=1280%2C480&ssl=1" style="height:30px; width:100px; margin-left:10px; margin-right: 10px;"/>
+      <img  src="https://i0.wp.com/kindalame.com/wp-content/uploads/2021/05/metamask-fox-wordmark-horizontal.png?resize=1280%2C480&ssl=1" style="height:30px; width:100px; margin-left:10px; margin-right: 10px; margin-top:-10px; margin-bottom:-10px;"/>
         </button>
   <br/>
   <br/>
@@ -94,13 +87,10 @@ maximum-scale=1.0, user-scalable=no" />
    <br/>
    Ξ
    <span id="balanceETH" style="padding: 10px; border: 2px solid grey; width: 340px">0</span>
-   </div>
-
-   <div>
-   <br/>
    BML
    <span id="balanceBML" style="padding: 10px; border: 2px solid grey; width: 340px">0</span>
    </div>
+
 
 
 

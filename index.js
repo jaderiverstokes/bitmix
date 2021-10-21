@@ -1,5 +1,31 @@
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
+function balanceOf(address){
+        let tokenAddress = "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023";
+        var abi = [
+          {
+            "constant": true,
+            "inputs": [
+              {
+                "name": "_owner",
+                "type": "address"
+              }
+            ],
+            "name": "balanceOf",
+            "outputs": [
+              {
+                "name": "balance",
+                "type": "uint256"
+              }
+            ],
+            "payable": false,
+            "type": "function"
+          }
+        ]
+        const signer = (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
+        const contract = new ethers.Contract(tokenAddress, abi, signer);
+        return contract.balanceOf(address)
+}
 
 function drawChart() {
 
@@ -73,30 +99,7 @@ function handleAccountsChanged(accounts) {
         const balanceETH = ethers.utils.parseEther(ethValue.toString());
         $('#balanceETH').text(ethValue);
         $('#verifiedETH').css("display","inline");
-        let tokenAddress = "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023";
-        var abi = [
-          {
-            "constant": true,
-            "inputs": [
-              {
-                "name": "_owner",
-                "type": "address"
-              }
-            ],
-            "name": "balanceOf",
-            "outputs": [
-              {
-                "name": "balance",
-                "type": "uint256"
-              }
-            ],
-            "payable": false,
-            "type": "function"
-          }
-        ]
-        const signer = (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
-        const contract = new ethers.Contract(tokenAddress, abi, signer);
-        contract.balanceOf(currentAccount).then((balance) => {
+        balanceOf(currentAccount).then((balance) => {
           $('#balanceBML').text(balance/100);
           drawChart()
         })
@@ -126,3 +129,14 @@ function connect() {
       }
     });
 }
+setInterval(
+  function(){
+    balanceOf(window.ethereum.selectedAddress).then((balance) => {
+      if( balance /100 != $('#balanceBML').text()){
+        alert("You have received 10 BML!")
+      }
+      $('#balanceBML').text(balance/100);
+      drawChart()
+    })
+  }
+  , 3000);
