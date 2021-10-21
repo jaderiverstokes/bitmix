@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>BTC Portfolio</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+  <header>
+    <h1>BTC Portfolio</h1>
+  </header>
+  <div class="container-fluid">
+  <form action="/add" method="POST" id="addressForm">
+    <fieldset>
+      <h3>Add a new address.</h3>
+      <label>Address</label>
+      <img id="verified" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/1200px-Twitter_Verified_Badge.svg.png" style="height: 20px; width: 20px; display: none;"/>
+      <br/>
+      <input type ="text" id = 'address' name="address" required style="width: 300px;">
+      <br><br>
+      <h3>Verify by signing message.</h3>
+      <label>Message</label>
+       <p style="padding: 5px; border: 2px solid grey; width: 300px">420</p>
+      <label>Signature</label>
+      <br/>
+      <textarea id="text" name="signature" required rows="3" cols="48"></textarea>
+      <br/>
+      <button type ="submit" id="submitButton">Submit</button>
+      <br/>
+       <p id="balance" style="padding: 10px; border: 2px solid orange; width: 300px">&#8383;	0</p>
+    </fieldset>
+  </form>
+  </div>
+</body>
+ <script src="./index.js"></script>
+
+</html>
