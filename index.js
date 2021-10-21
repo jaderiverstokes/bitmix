@@ -1,22 +1,29 @@
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
+
 function drawChart() {
 
+
+
+//`https://api.binance.com/api/v3/avgPrice?symbol=${symbol}BUSD`
 var data = google.visualization.arrayToDataTable([
 ['Coin', 'Balance'],
-['BTC', Number($('#balanceBTC').text())],
-['ETH', Number($('#balanceETH').text())],
+['BTC', Number($('#balanceBTC').text() * 6000)],
+['ETH', Number($('#balanceETH').text() * 300)],
+['BML', Number($('#balanceBML').text() * 1)],
 ]);
 
 var options = {
-title: 'Portfolio',
-  colors:[ '#ff8c00', 'grey']
+  title: 'Portfolio',
+  colors:[ '#ff8c00', 'grey', 'green'],
+  legend:{position: 'top'}
 };
 
 var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
 chart.draw(data, options);
 }
+
 $('#submitButton').click( function(e) {
   e.preventDefault()
   $.post( '/add', $('form#addressForm').serialize(), function(balanceBTC) {
@@ -24,6 +31,7 @@ $('#submitButton').click( function(e) {
     $('#balanceBTC').text(balanceBTC/ 100000000);
     drawChart()
     $('#verifiedBTC').css("display","inline");
+    $('#signatureForm').css("display","none");
        },
        'json'
     ,function(err){console.log(err)});
@@ -31,6 +39,7 @@ $('#submitButton').click( function(e) {
 
 detectEthereumProvider().then(provider => {
 if (provider) {
+  window.provider = provider
   console.log(provider)
 } else {
       console.log('Please install MetaMask!');
@@ -56,15 +65,42 @@ function handleAccountsChanged(accounts) {
   } else if (accounts[0] !== currentAccount) {
     currentAccount = accounts[0];
     $('#addressETH').text(currentAccount);
-    console.log(currentAccount)
     window.ethereum
       .request({ method: 'eth_getBalance', params: [currentAccount, 'latest'] })
       .then((balance) => {
         const weiValue = parseInt(Number(balance), 10)
-        const balanceETH = ethers.utils.formatEther(weiValue);
-        $('#balanceETH').text(balanceETH);
-        drawChart()
+        const ethValue = weiValue/ 1000000000000000000
+        const balanceETH = ethers.utils.parseEther(ethValue.toString());
+        $('#balanceETH').text(ethValue);
         $('#verifiedETH').css("display","inline");
+        let tokenAddress = "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023";
+        var abi = [
+          {
+            "constant": true,
+            "inputs": [
+              {
+                "name": "_owner",
+                "type": "address"
+              }
+            ],
+            "name": "balanceOf",
+            "outputs": [
+              {
+                "name": "balance",
+                "type": "uint256"
+              }
+            ],
+            "payable": false,
+            "type": "function"
+          }
+        ]
+        const signer = (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
+        const contract = new ethers.Contract(tokenAddress, abi, signer);
+        contract.balanceOf(currentAccount).then((balance) => {
+          $('#balanceBML').text(balance/100);
+          drawChart()
+        })
+        drawChart()
       })
       .catch((err) => {
         if (err.code === 4001) {
@@ -90,11 +126,3 @@ function connect() {
       }
     });
 }
-
-
-$(document).ready(function(){
-
-
-
-
-});
