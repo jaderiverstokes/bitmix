@@ -4,6 +4,8 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@metamask/detect-provider": "^1.2.0",
+    "axios": "^0.23.0",
     "bitcoinjs-lib": "^5.2.0",
     "bitcore-message": "^1.0.4",
     "body-parser": "^1.19.0",
