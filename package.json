@@ -1,6 +1,9 @@
 {
   "name": "bitmix",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.x"
+  },
   "description": "node app ",
   "main": "app.js",
   "scripts": {
