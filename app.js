@@ -1,5 +1,6 @@
 var bodyParser = require('body-parser');
 var bitcoin = require('bitcoinjs-lib') // v4.x.x
+//var detectEthereumProvider = require('@metamask/detect-provider');
 var axios = require('axios')
 var bitcoinMessage = require('bitcoinjs-message')
 var express = require('express');
@@ -15,8 +16,8 @@ app.get('/', function(req,res){
 });
 
 app.post('/add', function(req,res){
-  var signatureValid = bitcoinMessage.verify('420', req.body.address, req.body.signature, null, true);
-  var addressBalanceEndpoint = `https://blockchain.info/address/${address}?format=json`;
+  var signatureValid = bitcoinMessage.verify('420', req.body.addressBTC, req.body.signature, null, true);
+  var addressBalanceEndpoint = `https://blockchain.info/address/${req.body.addressBTC}?format=json`;
   axios.get(addressBalanceEndpoint)
   .then(balance_response => {
     res.status = "success"
@@ -34,3 +35,5 @@ app.post('/add', function(req,res){
 server.listen(3000,function(){
     console.log("Server listening on port: 3000");
 })
+
+
