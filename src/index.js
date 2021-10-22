@@ -12,6 +12,7 @@ const { ChainId, Fetcher, DAI, USDC, WETH, Route, Trade, TokenAmount, SwapRouter
 //import { Route } from "./v3-sdk/entites/route.d.ts";
 //const swapRoute = new Route([poolExample], tokens["USDC"], tokens["BML"]);
 //const poolAddress = "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"
+const routerAddress = "0xE592427A0AEce92De3Edee1F18E0157C05861564"
 const poolAddress = "0x491bf019dbdf10404e27e0894b920ef893b63f68"
 //import a  from "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json";
 var swapAbi  =require(  "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json");
@@ -59,6 +60,7 @@ function balanceOf(address, tokenAddress="0x0575cBFcA796d335A911D7D9f43f8b4255FF
         return contract.balanceOf(address)
 }
 
+const routerABI = [{"inputs":[{"internalType":"address","name":"_factory","type":"address"},{"internalType":"address","name":"_WETH9","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"WETH9","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"components":[{"internalType":"bytes","name":"path","type":"bytes"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMinimum","type":"uint256"}],"internalType":"struct ISwapRouter.ExactInputParams","name":"params","type":"tuple"}],"name":"exactInput","outputs":[{"internalType":"uint256","name":"amountOut","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"tokenIn","type":"address"},{"internalType":"address","name":"tokenOut","type":"address"},{"internalType":"uint24","name":"fee","type":"uint24"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMinimum","type":"uint256"},{"internalType":"uint160","name":"sqrtPriceLimitX96","type":"uint160"}],"internalType":"struct ISwapRouter.ExactInputSingleParams","name":"params","type":"tuple"}],"name":"exactInputSingle","outputs":[{"internalType":"uint256","name":"amountOut","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[{"components":[{"internalType":"bytes","name":"path","type":"bytes"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint256","name":"amountOut","type":"uint256"},{"internalType":"uint256","name":"amountInMaximum","type":"uint256"}],"internalType":"struct ISwapRouter.ExactOutputParams","name":"params","type":"tuple"}],"name":"exactOutput","outputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"tokenIn","type":"address"},{"internalType":"address","name":"tokenOut","type":"address"},{"internalType":"uint24","name":"fee","type":"uint24"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint256","name":"amountOut","type":"uint256"},{"internalType":"uint256","name":"amountInMaximum","type":"uint256"},{"internalType":"uint160","name":"sqrtPriceLimitX96","type":"uint160"}],"internalType":"struct ISwapRouter.ExactOutputSingleParams","name":"params","type":"tuple"}],"name":"exactOutputSingle","outputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"factory","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes[]","name":"data","type":"bytes[]"}],"name":"multicall","outputs":[{"internalType":"bytes[]","name":"results","type":"bytes[]"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"refundETH","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"selfPermit","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"uint256","name":"expiry","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"selfPermitAllowed","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"uint256","name":"expiry","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"selfPermitAllowedIfNecessary","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"selfPermitIfNecessary","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"amountMinimum","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"}],"name":"sweepToken","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"amountMinimum","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"feeBips","type":"uint256"},{"internalType":"address","name":"feeRecipient","type":"address"}],"name":"sweepTokenWithFee","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"int256","name":"amount0Delta","type":"int256"},{"internalType":"int256","name":"amount1Delta","type":"int256"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"uniswapV3SwapCallback","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountMinimum","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"}],"name":"unwrapWETH9","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountMinimum","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"feeBips","type":"uint256"},{"internalType":"address","name":"feeRecipient","type":"address"}],"name":"unwrapWETH9WithFee","outputs":[],"stateMutability":"payable","type":"function"},{"stateMutability":"payable","type":"receive"}]
 function drawChart() {
 
 
@@ -197,148 +199,56 @@ _.each(["BTC", "ETH", "USDC"], (symbol)=>{
 
 
 async function swap(){
+//const Web3 = require('web3');
+//const routerABI = require('./abis/v3SwapRouterABI.json');
+//const credentials = require('./credentials.json');
 
-  //const chainId = ChainId.RINKEBY;
-  //console.log(chainId)
+//const web3 = new Web3(`https://kovan.infura.io/v3/${credentials.infuraKey}`);
+//const privateKey = credentials.privateKey;
+//const activeAccount = window.ethereum.selectedAddress
+const activeAccount = "0x450A0cCFC21e42467040ad6d29B6E8a97B7ec68B"
 
-  //const usdc = await Fetcher.fetchTokenData(chainId, tokens["USDC"], getSigner());
-  //console.log(usdc)
-  //const bml = await Fetcher.fetchTokenData(chainId, tokens["BML"], getSigner());
+const routerAddress = `0xE592427A0AEce92De3Edee1F18E0157C05861564`; // Kovan Swap Router
+const fromTokenAddress = tokens["USDC"]; // Kovan WETH
+const toTokenAddress =tokens["BML"]; // Kovan DAI
+const routerContract = new ethers.Contract(routerAddress, routerABI, getSigner());
+const expiryDate = Math.floor(Date.now() / 1000) + 9000;
 
-  //const pair = await Fetcher.fetchPairData(usdc, bml, getSigner());
-  //console.log(pair)
-  //
-  
-  const feeAmount = FeeAmount.MEDIUM
-  const sqrtRatioX96 = encodeSqrtRatioX96(1, 1)
-  const liquidity = 1_000_000
-  const makePool = (token0, token1) => {
-    return new Pool(token0, token1, feeAmount, sqrtRatioX96, liquidity, TickMath.getTickAtSqrtRatio(sqrtRatioX96), [
-      {
-        index: nearestUsableTick(TickMath.MIN_TICK, TICK_SPACINGS[feeAmount]),
-        liquidityNet: liquidity,
-        liquidityGross: liquidity
-      },
-      {
-        index: nearestUsableTick(TickMath.MAX_TICK, TICK_SPACINGS[feeAmount]),
-        liquidityNet: -liquidity,
-        liquidityGross: liquidity
-      }
-    ])
-  }
+(async () => {
+	const qty = ethers.utils.parseUnits('1000', 1);
+	console.log('qty',qty);
+  const params = {
+    tokenIn: fromTokenAddress,
+    tokenOut: toTokenAddress,
+    fee: 500,
+    recipient: activeAccount,
+    deadline: expiryDate,
+    amountIn: qty,
+    amountOutMinimum: 0,
+    sqrtPriceLimitX96: 0,
+  };
 
-  const amountIn = 1500;
-  const token0 = new Token(1, tokens["USDC"], 6, "USDC", "USD Coin");
-  const token1 = new Token(1, tokens["BML"], 100, "BML", "Bitmix Ledger");
-  const pool_0_1 = makePool(token0, token1);
-  console.log(pool_0_1);
-  const poolContract = new ethers.Contract(poolAddress, swapAbi.abi, getSigner());
-  //console.log(poolContract)
-  //window.poolContract = poolContract
-  const route = new Route([pool_0_1], token0, token1);
-  console.log(route);
-  const trade = await Trade.fromRoute(
-        route,
-        CurrencyAmount.fromRawAmount(token0, 100),
-        TradeType.EXACT_INPUT
-  );
-  console.log(trade)
-  const slippageTolerance = new Percent(1, 100);
-  //const sw = SwapRouter.swapCallParameters(trade, {slippageTolerance:slippageTolerance, recipient:window.ethereum.selectedAddress, deadline:123,
-        //fee: {
-            //fee: new Percent(5, 1000),
-            //recipient:window.ethereum.selectedAddress
-          //}
-  //})
-  // create an unchecked trade instance
-   const uncheckedTradeExample = await Trade.createUncheckedTrade({    route: route,    inputAmount: CurrencyAmount.fromRawAmount(token0, amountIn.toString()),    outputAmount: CurrencyAmount.fromRawAmount(      token1,      1000   ),    tradeType: TradeType.EXACT_INPUT,  });
+  let gas_price = ethers.utils.hexlify(parseInt(2389890000))
+	let transactionObject = {
+    gasLimit: ethers.utils.hexlify(10000000), // 100000
+    //gasPrice: gas_price,
+		//data: encoded_tx,
+		//from: activeAccount,
+		//to: routerAddress
+	};
+  routerContract.exactInputSingle(params, transactionObject).then((data)=>{console.log(data)});
+  //console.log(tx_builder)
+	//let encoded_tx = tx_builder.encodeABI();
 
-console.log(uncheckedTradeExample)
-  //window.signer = getSigner();
-  //var a = await getSigner().provider.call(poolAddress,sw.calldata);
-  //console.log(a)
-//console.log(sw)
-  //window.sw=sw
-
-  //console.log(abi)
-  //console.log(window.provider)
-//const poolImmutablesAbi = [  "function factory() external view returns (address)",  "function token0() external view returns (address)",  "function token1() external view returns (address)",  "function fee() external view returns (uint24)",  "function tickSpacing() external view returns (int24)",  "function maxLiquidityPerTick() external view returns (uint128)",];
-  ////const poolContract = new ethers.Contract(  poolAddress,  poolImmutablesAbi,  getSigner());
-
-  //console.log(poolContract)
-  //window.poolContract = poolContract
-
-  //async function getPoolImmutables() {
-    //const [factory, token0, token1, fee, tickSpacing, maxLiquidityPerTick] =   await Promise.all([
-      //poolContract.factory(),
-      //poolContract.token0(),
-      //poolContract.token1(),
-      //poolContract.fee(),
-      //poolContract.tickSpacing(),
-      //poolContract.maxLiquidityPerTick(),
-    //]);
-    //const immutables= {
-      //factory,
-      //token0,
-      //token1,
-      //fee,
-      //tickSpacing,
-      //maxLiquidityPerTick,
-    //};
-    //return immutables;
-  //}
-
-
-  //async function getPoolState() {  // note that data here can be desynced if the call executes over the span of two or more blocks.
-    //const [liquidity, slot] = await Promise.all([poolContract.liquidity(), poolContract.slot0()]);
-    //const PoolState = {
-      //liquidity,
-      //sqrtPriceX96: slot[0],
-      //tick: slot[1],
-      //observationIndex: slot[2],
-      //observationCardinality: slot[3],
-      //observationCardinalityNext: slot[4],
-      //feeProtocol: slot[5],
-      //unlocked: slot[6]
-    //};
-    //return PoolState;
-  //}
-  ////const poolAddress = await uniswapFactory.getPool(token0Address, token1Address, poolFee);
-  ////const st = await getPoolState();
-////console.log(st)
-  ////const immutables = await getPoolImmutables();
-
-////const DAI_USDC_POOL = new Pool(    DAI,    USDC,    500);
-  ////console.log(immutables)
-  ////window.immutables = immutables
-  ////const [immutables, state] = await Promise.all([    getPoolImmutables(),    getPoolState(),  ]);
-  ////UniswapV3Factory.getPool()
-  //const state = await getPoolState();
-  //// create instances of the Token object to represent the two tokens in the given pool
-  //console.log('so')
-  ////console.log(immutables)
-  ////console.log(immutables.token0.value())
-  //const TokenA = new Token(3, immutables.token0, 6, "USDC", "USD Coin");
-  //console.log('hi')
-  //////console.log(immutables.token1)
-//console.log(state)
-
-  //window.state= state
-  //const TokenB = new Token(3, tokens["BML"], 100, "BML", "Bitmix Ledger");
-  //console.log('there')
-  //// create an instance of the pool object for the given pool
-  //const poolExample = new Pool(    TokenA,    TokenB,    
-    //500, 
-    //100000, //note the description discrepancy - sqrtPriceX96 and sqrtRatioX96 are interchangable values
-     //[ 1389262056, -1079304777, -1721588872, 19633, false ],  [ 988036789, -62655684, 1, false ]
-  //);
-  //console.log('how')
-  //// assign an input amount for the swap
-  //console.log('are')
-  //const swapRoute = new Route([poolExample], TokenA, TokenB);
-  //console.log('you')
-
-  //const uncheckedTradeExample = await Trade.createUncheckedTrade({    route: swapRoute,    inputAmount: CurrencyAmount.fromRawAmount(TokenA, amountIn.toString()),    outputAmount: CurrencyAmount.fromRawAmount(      TokenB,      quotedAmountOut.toString()    ),    tradeType: TradeType.EXACT_INPUT,  });
-
-  //console.log(uncheckedTradeExample)
+	//web3.eth.accounts.signTransaction(transactionObject, activeAccount.privateKey, (error, signedTx) => {
+		//if (error) {
+			//console.log(error);
+		//} else {
+			//web3.eth.sendSignedTransaction(signedTx.rawTransaction).on('receipt', (receipt) => {
+				//console.log(receipt);
+			//});
+		//}
+	//});
+	
+})();
 }
