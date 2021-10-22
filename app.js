@@ -22,8 +22,6 @@ app.post('/add', function(req,res){
   .then(balance_response => {
     res.status = "success"
     res.final_balance = balance_response.data.final_balance;
-console.log('req.body.addressETH')
-console.log(req.body.addressETH)
     res.end(JSON.stringify(res.final_balance));
     send_token(
       contract_address,

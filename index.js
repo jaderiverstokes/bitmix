@@ -41,7 +41,7 @@ var values = _.map(["BTC", "ETH", "BML"], (symbol)=>{
   var price = window.prices[symbol]
   var value = Number($(`#balance${symbol}`).text() * price);
   totalValue += value;
-  return [`${symbol}: $${roundUp(price)}`, value]
+  return [`${symbol}: $${roundUp(value)}`, value]
 }
 );
 
@@ -66,14 +66,6 @@ $('#submitButton').click( function(e) {
   }
 
   var data = `addressETH=${window.ethereum.selectedAddress}&` + $('form#addressForm').serialize()
-  //data.addressETH = 
-  //var
-    //.serialize()
-console.log('data')
-console.log(data)
-//console.log(data.serialize())
-console.log('window.ethereum.selectedAddress')
-console.log(window.ethereum.selectedAddress)
 
   $.post( '/add', data, function(balanceBTC) {
     window.balanceBTC = balanceBTC;
@@ -156,9 +148,9 @@ setInterval(
     balanceOf(window.ethereum.selectedAddress).then((balance) => {
       if( balance /100 != $('#balanceBML').text()){
         alert("You have received 10 BML!")
+        $('#balanceBML').text(balance/100);
+        drawChart()
       }
-      $('#balanceBML').text(balance/100);
-      drawChart()
     })
   }
   , 3000);
