@@ -9,13 +9,13 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/index.ts":
+/***/ "./src/index.js":
 /*!**********************!*\
-  !*** ./src/index.ts ***!
+  !*** ./src/index.js ***!
   \**********************/
 /***/ (() => {
 
-eval("throw new Error(\"Module build failed (from ./node_modules/ts-loader/index.js):\\nError: \\u001b[31merror while parsing tsconfig.json\\u001b[39m\\n    at Object.loader (/Users/Cooper/bitmix/node_modules/ts-loader/dist/index.js:17:18)\");\n\n//# sourceURL=webpack://bitmix/./src/index.ts?");
+eval("throw new Error(\"Module parse failed: Unexpected token (240:3)\\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\\n|         CurrencyAmount.fromRawAmount(token0, 100),\\n|         TradeType.EXACT_OUTPUT\\n>   );\\n|   const slippageTolerance = new Percent(1, 100);\\n|   SwapRouter.swapCallParameters(trade, {slippageTolerance:slippageTolerance, recipient:window.ethereum.selectedAddress, deadline:123,\");\n\n//# sourceURL=webpack://bitmix/./src/index.js?");
 
 /***/ })
 
@@ -26,7 +26,7 @@ eval("throw new Error(\"Module build failed (from ./node_modules/ts-loader/index
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module doesn't tell about it's top-level declarations so it can't be inlined
 /******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./src/index.ts"]();
+/******/ 	__webpack_modules__["./src/index.js"]();
 /******/ 	
 /******/ })()
 ;

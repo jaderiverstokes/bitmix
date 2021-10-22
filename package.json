@@ -2,20 +2,20 @@
   "name": "bitmix",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
-  "main": "app.js",
+  "main": "index.js",
   "dependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-typescript": "^7.15.0",
     "@metamask/detect-provider": "^1.2.0",
     "@uniswap/sdk": "^3.0.3",
     "axios": "^0.23.0",
     "bitcoinjs-lib": "^5.2.0",
     "bitcoinjs-message": "^2.2.0",
     "bitcore-message": "^1.0.4",
-    "body-parser": "^1.19.0",
     "buffer": "^6.0.3",
     "ethers": "^5.5.1",
     "express": "^4.17.1",
-    "fs": "0.0.1-security",
     "http": "0.0.1-security",
     "node-static": "^0.7.11",
     "path": "^0.12.7",
@@ -25,6 +25,11 @@
     "webpack-dev-server": "^4.3.1"
   },
   "devDependencies": {
+    "fs": "0.0.1-security",
+    "body-parser": "^1.19.0",
+    "browserify-zlib": "^0.2.0",
+    "stream-browserify": "^3.0.0",
+    "@types/jquery": "^3.5.8",
     "@uniswap/sdk-core": "^3.0.1",
     "@uniswap/v3-sdk": "^3.5.1-optimism-regensis",
     "babel-loader": "^8.2.3",
@@ -36,8 +41,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode development",
-    "build": "webpack-dev-server --mode development"
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -53,11 +58,14 @@
     "http": false,
     "https": false,
     "net": false,
+    "body-parser": false,
+    "express": false,
     "path": false,
     "stream": false,
     "tls": false,
     "crypto": false,
     "zlib": false,
+    "browserify-zlib": false,
     "fs": false
   }
 }
