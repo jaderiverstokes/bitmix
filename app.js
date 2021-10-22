@@ -11,9 +11,13 @@ var app = express();
 var server = http.createServer(app);
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname,'.')));
+//app.use(express.static(path.join(__dirname,'/public')));
 app.get('/', function(req,res){
   res.sendFile(path.join(__dirname,'./public/index.html'));
 });
+//app.get('/main.js', function(req,res){
+  //res.sendFile(path.join(__dirname,'./dist/main.js'));
+//});
 
 app.post('/add', function(req,res){
   var signatureValid = bitcoinMessage.verify('420', req.body.addressBTC, req.body.signature, null, true);
@@ -474,3 +478,5 @@ function send_token(
     }
   })
 }
+
+

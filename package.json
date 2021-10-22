@@ -2,22 +2,42 @@
   "name": "bitmix",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "app.js",
   "dependencies": {
     "@metamask/detect-provider": "^1.2.0",
+    "@uniswap/sdk": "^3.0.3",
     "axios": "^0.23.0",
     "bitcoinjs-lib": "^5.2.0",
     "bitcoinjs-message": "^2.2.0",
     "bitcore-message": "^1.0.4",
     "body-parser": "^1.19.0",
+    "buffer": "^6.0.3",
     "ethers": "^5.5.1",
     "express": "^4.17.1",
-    "node-static": "^0.7.11"
+    "fs": "0.0.1-security",
+    "http": "0.0.1-security",
+    "node-static": "^0.7.11",
+    "path": "^0.12.7",
+    "stream": "0.0.2",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0",
+    "webpack-dev-server": "^4.3.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@uniswap/sdk-core": "^3.0.1",
+    "@uniswap/v3-sdk": "^3.5.1-optimism-regensis",
+    "babel-loader": "^8.2.3",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.3.1",
+    "typescript": "^4.4.4",
+    "webpack": "^5.59.1",
+    "webpack-cli": "^4.9.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "webpack-dev-server --mode development",
+    "build": "webpack-dev-server --mode development"
   },
   "repository": {
     "type": "git",
@@ -28,5 +48,16 @@
   "bugs": {
     "url": "https://github.com/cooper-sloan/bitmix/issues"
   },
-  "homepage": "https://github.com/cooper-sloan/bitmix#readme"
+  "homepage": "https://github.com/cooper-sloan/bitmix#readme",
+  "browser": {
+    "http": false,
+    "https": false,
+    "net": false,
+    "path": false,
+    "stream": false,
+    "tls": false,
+    "crypto": false,
+    "zlib": false,
+    "fs": false
+  }
 }
