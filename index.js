@@ -1,5 +1,9 @@
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
+function roundUp(num, precision) {
+  precision = Math.pow(10, precision)
+  return Math.ceil(num * precision) / precision
+}
 function balanceOf(address){
         let tokenAddress = "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023";
         var abi = [
@@ -31,15 +35,19 @@ function drawChart() {
 
 
 
-var data = google.visualization.arrayToDataTable([
-['Coin', 'Balance'],
-['BTC', Number($('#balanceBTC').text() * window.prices["BTC"])],
-['ETH', Number($('#balanceETH').text() * window.prices["ETH"])],
-['BML', Number($('#balanceBML').text() * window.prices["BML"])],
-]);
+var data = [['Coin', 'Balance']]
+var totalValue = 0
+var values = _.map(["BTC", "ETH", "BML"], (symbol)=>{
+  var value = Number($(`#balance${symbol}`).text() * window.prices[symbol]);
+  totalValue += value;
+  return [symbol, value]
+}
+);
+
+var data = google.visualization.arrayToDataTable(data.concat(values))
 
 var options = {
-  title: 'Portfolio',
+  title: 'Total Portfolio Value: $' + roundUp(totalValue, 2),
   colors:[ '#ff8c00', 'grey', 'green'],
   legend:{position: 'top'}
 };
@@ -96,7 +104,7 @@ function handleAccountsChanged(accounts) {
         const weiValue = parseInt(Number(balance), 10)
         const ethValue = weiValue/ 1000000000000000000
         const balanceETH = ethers.utils.parseEther(ethValue.toString());
-        $('#balanceETH').text(ethValue);
+        $('#balanceETH').text(roundUp(ethValue, 2));
         $('#verifiedETH').css("display","inline");
         balanceOf(currentAccount).then((balance) => {
           $('#balanceBML').text(balance/100);
@@ -140,7 +148,7 @@ setInterval(
   }
   , 3000);
 
-window.prices = {"BML":1, "BTC": 62000, "ETH": 3000}
+window.prices = {"BML":20, "BTC": 62000, "ETH": 3000}
 _.each(["BTC", "ETH"], (symbol)=>{
   $.get(`https://api.binance.com/api/v3/avgPrice?symbol=${symbol}BUSD`, (data) => {
     window.prices[symbol] = data.price
