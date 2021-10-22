@@ -31,12 +31,11 @@ function drawChart() {
 
 
 
-//`https://api.binance.com/api/v3/avgPrice?symbol=${symbol}BUSD`
 var data = google.visualization.arrayToDataTable([
 ['Coin', 'Balance'],
-['BTC', Number($('#balanceBTC').text() * 6000)],
-['ETH', Number($('#balanceETH').text() * 300)],
-['BML', Number($('#balanceBML').text() * 1)],
+['BTC', Number($('#balanceBTC').text() * window.prices["BTC"])],
+['ETH', Number($('#balanceETH').text() * window.prices["ETH"])],
+['BML', Number($('#balanceBML').text() * window.prices["BML"])],
 ]);
 
 var options = {
@@ -140,3 +139,13 @@ setInterval(
     })
   }
   , 3000);
+
+window.prices = {"BML":1, "BTC": 62000, "ETH": 3000}
+_.each(["BTC", "ETH"], (symbol)=>{
+  $.get(`https://api.binance.com/api/v3/avgPrice?symbol=${symbol}BUSD`, (data) => {
+    window.prices[symbol] = data.price
+    drawChart()
+})
+
+})
+
