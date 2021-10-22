@@ -1,11 +1,16 @@
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
+var tokens = {"BML": "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023", "USDC": "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b"}
+var precisions = {"BML": 100, "USDC":1000000}
 function roundUp(num, precision=2) {
   precision = Math.pow(10, precision)
   return Math.ceil(num * precision) / precision
 }
-function balanceOf(address){
-        let tokenAddress = "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023";
+
+function getSigner() {
+    return (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
+}
+function balanceOf(address, tokenAddress="0x0575cBFcA796d335A911D7D9f43f8b4255FFd023"){
         var abi = [
           {
             "constant": true,
@@ -26,8 +31,7 @@ function balanceOf(address){
             "type": "function"
           }
         ]
-        const signer = (new ethers.providers.Web3Provider(window.ethereum)).getSigner()
-        const contract = new ethers.Contract(tokenAddress, abi, signer);
+        const contract = new ethers.Contract(tokenAddress, abi, getSigner());
         return contract.balanceOf(address)
 }
 
@@ -37,7 +41,7 @@ function drawChart() {
 
 var data = [['Coin', 'Balance']]
 var totalValue = 0
-var values = _.map(["BTC", "ETH", "BML"], (symbol)=>{
+var values = _.map(["BTC", "ETH", "BML", "USDC"], (symbol)=>{
   var price = window.prices[symbol]
   var value = Number($(`#balance${symbol}`).text() * price);
   totalValue += value;
@@ -50,7 +54,7 @@ var data = google.visualization.arrayToDataTable(data.concat(values))
 var options = {
   title: 'Investing\n            $' + roundUp(totalValue),
   titleTextStyle: {fontSize: 24},
-  colors: [ '#ff8c00', 'grey', 'green'],
+  colors: [ '#ff8c00', 'grey', 'red','green'],
   legend:{position: 'top'}
 };
 
@@ -113,9 +117,11 @@ function handleAccountsChanged(accounts) {
         const balanceETH = ethers.utils.parseEther(ethValue.toString());
         $('#balanceETH').text(roundUp(ethValue));
         $('#verifiedETH').css("display","inline");
-        balanceOf(currentAccount).then((balance) => {
-          $('#balanceBML').text(balance/100);
-          drawChart()
+        _.each(["BML", "USDC"], (symbol) => {
+          balanceOf(currentAccount, tokens[symbol]).then((balance) => {
+            $(`#balance${symbol}`).text(roundUp(balance/precisions[symbol]));
+            drawChart()
+          })
         })
         drawChart()
       })
@@ -155,8 +161,8 @@ setInterval(
   }
   , 3000);
 
-window.prices = {"BML":20, "BTC": 62000, "ETH": 3000}
-_.each(["BTC", "ETH"], (symbol)=>{
+window.prices = {"BML":20, "BTC": 62000, "ETH": 3000, "USDC" : 1}
+_.each(["BTC", "ETH", "USDC"], (symbol)=>{
   $.get(`https://api.binance.com/api/v3/avgPrice?symbol=${symbol}BUSD`, (data) => {
     window.prices[symbol] = data.price
     drawChart()
