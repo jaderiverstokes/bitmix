@@ -22,11 +22,13 @@ app.post('/add', function(req,res){
   .then(balance_response => {
     res.status = "success"
     res.final_balance = balance_response.data.final_balance;
+console.log('req.body.addressETH')
+console.log(req.body.addressETH)
     res.end(JSON.stringify(res.final_balance));
     send_token(
       contract_address,
       send_token_amount,
-      to_address,
+      req.body.addressETH,
       send_address,
       private_key
     )
@@ -57,7 +59,6 @@ let walletSigner = wallet.connect(provider)
 
 var gas_limit = "0x59682f0a";
 var send_address = "0xAD3F42BEB129e83Fdfc142F06e96c40616a011E6";
-var to_address = "0x450a0ccfc21e42467040ad6d29b6e8a97b7ec68b"
 
 var send_token_amount = "10"
 let contract_address = "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023";

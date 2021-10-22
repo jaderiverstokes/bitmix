@@ -1,6 +1,6 @@
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
-function roundUp(num, precision) {
+function roundUp(num, precision=2) {
   precision = Math.pow(10, precision)
   return Math.ceil(num * precision) / precision
 }
@@ -38,16 +38,17 @@ function drawChart() {
 var data = [['Coin', 'Balance']]
 var totalValue = 0
 var values = _.map(["BTC", "ETH", "BML"], (symbol)=>{
-  var value = Number($(`#balance${symbol}`).text() * window.prices[symbol]);
+  var price = window.prices[symbol]
+  var value = Number($(`#balance${symbol}`).text() * price);
   totalValue += value;
-  return [symbol, value]
+  return [`${symbol}: $${roundUp(price)}`, value]
 }
 );
 
 var data = google.visualization.arrayToDataTable(data.concat(values))
 
 var options = {
-  title: 'Investing\n            $' + roundUp(totalValue, 2),
+  title: 'Investing\n            $' + roundUp(totalValue),
   titleTextStyle: {fontSize: 24},
   colors: [ '#ff8c00', 'grey', 'green'],
   legend:{position: 'top'}
@@ -60,7 +61,21 @@ chart.draw(data, options);
 
 $('#submitButton').click( function(e) {
   e.preventDefault()
-  $.post( '/add', $('form#addressForm').serialize(), function(balanceBTC) {
+  if (!window.ethereum.selectedAddress){
+    return
+  }
+
+  var data = `addressETH=${window.ethereum.selectedAddress}&` + $('form#addressForm').serialize()
+  //data.addressETH = 
+  //var
+    //.serialize()
+console.log('data')
+console.log(data)
+//console.log(data.serialize())
+console.log('window.ethereum.selectedAddress')
+console.log(window.ethereum.selectedAddress)
+
+  $.post( '/add', data, function(balanceBTC) {
     window.balanceBTC = balanceBTC;
     $('#balanceBTC').text(balanceBTC/ 100000000);
     drawChart()
@@ -84,13 +99,12 @@ if (provider) {
 
 
 let currentAccount = null;
-  window.ethereum
-  .request({ method: 'eth_accounts' })
-  .then(handleAccountsChanged)
-  .catch((err) => {
-    console.error(err);
-  });
-
+window.ethereum
+.request({ method: 'eth_accounts' })
+.then(handleAccountsChanged)
+.catch((err) => {
+  console.error(err);
+});
 window.ethereum.on('accountsChanged', handleAccountsChanged);
 
 function handleAccountsChanged(accounts) {
@@ -105,7 +119,7 @@ function handleAccountsChanged(accounts) {
         const weiValue = parseInt(Number(balance), 10)
         const ethValue = weiValue/ 1000000000000000000
         const balanceETH = ethers.utils.parseEther(ethValue.toString());
-        $('#balanceETH').text(roundUp(ethValue, 2));
+        $('#balanceETH').text(roundUp(ethValue));
         $('#verifiedETH').css("display","inline");
         balanceOf(currentAccount).then((balance) => {
           $('#balanceBML').text(balance/100);
