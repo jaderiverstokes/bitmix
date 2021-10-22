@@ -47,8 +47,9 @@ var values = _.map(["BTC", "ETH", "BML"], (symbol)=>{
 var data = google.visualization.arrayToDataTable(data.concat(values))
 
 var options = {
-  title: 'Total Portfolio Value: $' + roundUp(totalValue, 2),
-  colors:[ '#ff8c00', 'grey', 'green'],
+  title: 'Investing\n            $' + roundUp(totalValue, 2),
+  titleTextStyle: {fontSize: 24},
+  colors: [ '#ff8c00', 'grey', 'green'],
   legend:{position: 'top'}
 };
 
