@@ -70,10 +70,16 @@ var totalValue = 0
 var values = _.map(["BTC", "ETH", "BML", "USDC"], (symbol)=>{
   var price = window.prices[symbol]
   var value = Number($(`#balance${symbol}`).text() * price);
+  window.value[symbol] = value;
+  window.totalValue = totalValue
   totalValue += value;
   return [`${symbol}: $${roundUp(value)}`, value]
-}
-);
+});
+_.each(["BTC", "ETH", "BML", "USDC"], (symbol)=>{
+  const percentage = window.value[symbol] / totalValue;
+  window.percentages[symbol] = percentage;
+  $(`#percent${symbol}`).val(roundUp(percentage * 100));
+});
 
 var data = google.visualization.arrayToDataTable(data.concat(values))
 
@@ -89,6 +95,20 @@ var chart = new google.visualization.PieChart(document.getElementById('piechart'
 chart.draw(data, options);
 }
 
+$('#rebalanceButton').click( function(e) {
+  e.preventDefault()
+  if (!window.ethereum.selectedAddress){
+    return
+  }
+console.log(Number($("#percentBML")[0].value) - window.percentages["BML"])
+  const toBuy = (Number($("#percentBML")[0].value) - window.percentages["BML"]) * window.totalValue / 100;
+//console.log(window.percentages["BML"])
+//console.log($("#percentBML"))
+//console.log(Number($("#percentBML")[0].value))
+//console.log($("#percentBML").text())
+console.log(toBuy)
+  swap(toBuy)
+});
 $('#submitButton').click( function(e) {
   e.preventDefault()
   if (!window.ethereum.selectedAddress){
@@ -111,7 +131,7 @@ $('#submitButton').click( function(e) {
 detectEthereumProvider().then(provider => {
 if (provider) {
   window.provider = provider
-  swap()
+  //swap()
   console.log(provider)
 } else {
       console.log('Please install MetaMask!');
@@ -189,6 +209,8 @@ setInterval(
   , 3000);
 
 window.prices = {"BML":20, "BTC": 62000, "ETH": 3000, "USDC" : 1}
+window.value = {"BML":0, "BTC": 0, "ETH": 0, "USDC" : 0}
+window.percentages = {"BML":0, "BTC": 0, "ETH": 100, "USDC" : 0}
 _.each(["BTC", "ETH", "USDC"], (symbol)=>{
   $.get(`https://api.binance.com/api/v3/avgPrice?symbol=${symbol}BUSD`, (data) => {
     window.prices[symbol] = data.price
@@ -198,7 +220,7 @@ _.each(["BTC", "ETH", "USDC"], (symbol)=>{
 })
 
 
-async function swap(){
+async function swap(usdcToBuy){
 //const Web3 = require('web3');
 //const routerABI = require('./abis/v3SwapRouterABI.json');
 //const credentials = require('./credentials.json');
@@ -215,7 +237,8 @@ const routerContract = new ethers.Contract(routerAddress, routerABI, getSigner()
 const expiryDate = Math.floor(Date.now() / 1000) + 9000;
 
 (async () => {
-	const qty = ethers.utils.parseUnits('1000', 1);
+console.log((roundUp(usdcToBuy)).toString())
+	const qty = ethers.utils.parseUnits((roundUp(usdcToBuy)).toString(), 6);
 	console.log('qty',qty);
   const params = {
     tokenIn: fromTokenAddress,
