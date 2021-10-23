@@ -35,7 +35,7 @@ maximum-scale=1.0, user-scalable=no" />
 <body>
 <div class="container">
 <div class="row">
-<div class="col-md-4">
+<div class="col-md-6">
   <header>
     <h2>
       <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoCGG7mO6bQ7OE7T4DAR5ssdJ5BFgeLVjnuWlFdIE&s=0" style="height: 30px; width: 30px; margin-left:10px; margin-top: -10px"/>
@@ -92,10 +92,11 @@ maximum-scale=1.0, user-scalable=no" />
    <br/>
    Ξ
    <span id="balanceETH" style="padding: 10px; border: 2px solid grey; width: 340px">0</span>
-   BML
-   <span id="balanceBML" style="padding: 10px; border: 2px solid grey; width: 340px">0</span>
-   USDC
-   <span id="balanceUSDC" style="padding: 10px; border: 2px solid grey; width: 340px">0</span>
+
+
+    <span id="balanceContainer">
+   </span>
+
    </div>
 
 
@@ -107,7 +108,7 @@ maximum-scale=1.0, user-scalable=no" />
 
 
 
-<div class="col-md-8" style="margin-top: 10px">
+<div class="col-md-6" style="margin-top: 10px">
   <div>
     <div id="piechart" style="width:100%; height: 400px;"></div>
   </div>
@@ -115,25 +116,15 @@ maximum-scale=1.0, user-scalable=no" />
       <br/>
       <br/>
 
+      <div id="percentContainer">
       <label>BTC %
       <input class="form-control" type ="text" id ="percentBTC" name="percentBTC" required style="width: 340px;" placeholder="BTC %" disabled>
       </label>
       <br/>
 
-      <label>ETH %
-      <input class="form-control" type ="text" id ="percentETH" name="percentETH" required style="width: 340px;" placeholder="ETH %" disabled>
-      </label>
-      <br/>
+      <label>ETH %<input class="form-control" type ="text" id ="percentETH" name="percentETH" required style="width: 340px;" placeholder="ETH %" disabled></label><br/>
 
-      <label>BML %
-      <input class="form-control" type ="text" id ="percentBML" name="percentBML" required style="width: 340px;" placeholder="BML %">
-      </label>
-      <br/>
-
-      <label>USDC %
-      <input class="form-control" type ="text" id ="percentUSDC" name="percentUSDC" required style="width: 340px;" placeholder="USDC %">
-      </label>
-      <br/>
+      </div>
 
 </div>
 
@@ -143,5 +134,17 @@ maximum-scale=1.0, user-scalable=no" />
 </div>
 </body>
  <script type="text/javascript" src="bundle.js"></script>
+<script>
+
+        const erc20s = ["BML", "USDC", "DAI"]
+      erc20s.forEach(function(symbol){
+        console.log( `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 340px;" placeholder="${symbol} %"></label><br/>`)
+        document.getElementById("percentContainer").innerHTML += `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 340px;" placeholder="${symbol} %"></label><br/>`
+        document.getElementById("balanceContainer").innerHTML += `${symbol}<span id="balance${symbol}" style="padding: 10px; border: 2px solid grey; width: 340px">0</span>`
+      })
+
+
+
+</script>
 
 </html>

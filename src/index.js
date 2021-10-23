@@ -1,31 +1,27 @@
-//(window as any).global = window;
-// @ts-ignore
-//window.Buffer = window.Buffer || require('buffer').Buffer;
-
 import { FeeAmount, TickMath,nearestUsableTick,TICK_SPACINGS, encodeSqrtRatioX96 } from '@uniswap/v3-sdk'
-//import { ChainId, Token } from "@uniswap/sdk";
-//import { abi as QuoterABI } from "./public/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json";
-//ISwapRouter
 import { CurrencyAmount, Token, TradeType, Percent} from "@uniswap/sdk-core";
-//import { UniswapV3Factory } from "@uniswap/v3-core";
 const { ChainId, Fetcher, DAI, USDC, WETH, Route, Trade, TokenAmount, SwapRouter, Pool } = require ("@uniswap/v3-sdk");
-//import { Route } from "./v3-sdk/entites/route.d.ts";
-//const swapRoute = new Route([poolExample], tokens["USDC"], tokens["BML"]);
-//const poolAddress = "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"
 const routerAddress = "0xE592427A0AEce92De3Edee1F18E0157C05861564"
 const poolAddress = "0x491bf019dbdf10404e27e0894b920ef893b63f68"
-//import a  from "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json";
 var swapAbi  =require(  "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json");
-//console.log(swapRoute)
+var tokens = {
+  "BML": "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023",
+  "USDC": "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b",
+  "USDT":"0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad",
+  "UNI": "0x03e6c12ef405ac3f642b9184eded8e1322de1a9e",
+  "DAI": "0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735",
+}
+const coins = require('./coins.json');
+const erc20s = ["BML", "USDC", "DAI"]
+const chains = ["BTC", "ETH"]
+const allCoins = _.union(chains,erc20s)
+const ethCoins = ["ETH"]  + erc20s
 
-//import '@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol';
-//import '@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol';
-//import { Route } from "./v3-sdk";
-//import { abi as QuoterABI } from "./node_modules/@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json";
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
-var tokens = {"BML": "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023", "USDC": "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b"}
-var precisions = {"BML": 100, "USDC":1000000}
+console.log(coins )
+//var symbolToAddress = _.object(_.pluck(coins, 'symbol'), _.pluck(coins, 'address'))
+var symbolToPrecision = _.object(_.pluck(coins, 'symbol'), _.pluck(coins, 'decimal'))
 function roundUp(num, precision=2) {
   precision = Math.pow(10, precision)
   return Math.ceil(num * precision) / precision
@@ -61,24 +57,40 @@ function balanceOf(address, tokenAddress="0x0575cBFcA796d335A911D7D9f43f8b4255FF
 }
 
 const routerABI = [{"inputs":[{"internalType":"address","name":"_factory","type":"address"},{"internalType":"address","name":"_WETH9","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"WETH9","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"components":[{"internalType":"bytes","name":"path","type":"bytes"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMinimum","type":"uint256"}],"internalType":"struct ISwapRouter.ExactInputParams","name":"params","type":"tuple"}],"name":"exactInput","outputs":[{"internalType":"uint256","name":"amountOut","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"tokenIn","type":"address"},{"internalType":"address","name":"tokenOut","type":"address"},{"internalType":"uint24","name":"fee","type":"uint24"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint256","name":"amountIn","type":"uint256"},{"internalType":"uint256","name":"amountOutMinimum","type":"uint256"},{"internalType":"uint160","name":"sqrtPriceLimitX96","type":"uint160"}],"internalType":"struct ISwapRouter.ExactInputSingleParams","name":"params","type":"tuple"}],"name":"exactInputSingle","outputs":[{"internalType":"uint256","name":"amountOut","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[{"components":[{"internalType":"bytes","name":"path","type":"bytes"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint256","name":"amountOut","type":"uint256"},{"internalType":"uint256","name":"amountInMaximum","type":"uint256"}],"internalType":"struct ISwapRouter.ExactOutputParams","name":"params","type":"tuple"}],"name":"exactOutput","outputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[{"components":[{"internalType":"address","name":"tokenIn","type":"address"},{"internalType":"address","name":"tokenOut","type":"address"},{"internalType":"uint24","name":"fee","type":"uint24"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint256","name":"amountOut","type":"uint256"},{"internalType":"uint256","name":"amountInMaximum","type":"uint256"},{"internalType":"uint160","name":"sqrtPriceLimitX96","type":"uint160"}],"internalType":"struct ISwapRouter.ExactOutputSingleParams","name":"params","type":"tuple"}],"name":"exactOutputSingle","outputs":[{"internalType":"uint256","name":"amountIn","type":"uint256"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"factory","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes[]","name":"data","type":"bytes[]"}],"name":"multicall","outputs":[{"internalType":"bytes[]","name":"results","type":"bytes[]"}],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"refundETH","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"selfPermit","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"uint256","name":"expiry","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"selfPermitAllowed","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"nonce","type":"uint256"},{"internalType":"uint256","name":"expiry","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"selfPermitAllowedIfNecessary","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"selfPermitIfNecessary","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"amountMinimum","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"}],"name":"sweepToken","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"amountMinimum","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"feeBips","type":"uint256"},{"internalType":"address","name":"feeRecipient","type":"address"}],"name":"sweepTokenWithFee","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"int256","name":"amount0Delta","type":"int256"},{"internalType":"int256","name":"amount1Delta","type":"int256"},{"internalType":"bytes","name":"_data","type":"bytes"}],"name":"uniswapV3SwapCallback","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountMinimum","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"}],"name":"unwrapWETH9","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amountMinimum","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"feeBips","type":"uint256"},{"internalType":"address","name":"feeRecipient","type":"address"}],"name":"unwrapWETH9WithFee","outputs":[],"stateMutability":"payable","type":"function"},{"stateMutability":"payable","type":"receive"}]
+
 function drawChart() {
 
 
 
 var data = [['Coin', 'Balance']]
 var totalValue = 0
-var values = _.map(["BTC", "ETH", "BML", "USDC"], (symbol)=>{
-  var price = window.prices[symbol]
+var symbolToValueUsd = {}
+var values = _.map(allCoins, (symbol)=>{
+  var value = {}
+  var price = 0
+  if(_.has(window.prices, symbol)){
+    price = window.prices[symbol]
+  }
+  //var price = window.prices[symbol]
   var value = Number($(`#balance${symbol}`).text() * price);
-  window.value[symbol] = value;
+  console.log(symbol)
+  console.log(value)
+  symbolToValueUsd[symbol] = value;
   window.totalValue = totalValue
   totalValue += value;
   return [`${symbol}: $${roundUp(value)}`, value]
 });
-_.each(["BTC", "ETH", "BML", "USDC"], (symbol)=>{
-  const percentage = window.value[symbol] / totalValue;
+
+_.each(allCoins, (symbol)=>{
+  var percentage = (symbolToValueUsd[symbol] / totalValue) * 100;
+  if (totalValue == 0){
+    percentage = 0;
+  }
+console.log(symbolToValueUsd[symbol])
+  console.log(percentage)
+  console.log(totalValue)
   window.percentages[symbol] = percentage;
-  $(`#percent${symbol}`).val(roundUp(percentage * 100));
+  $(`#percent${symbol}`).val(roundUp(percentage));
 });
 
 var data = google.visualization.arrayToDataTable(data.concat(values))
@@ -100,14 +112,22 @@ $('#rebalanceButton').click( function(e) {
   if (!window.ethereum.selectedAddress){
     return
   }
-console.log(Number($("#percentBML")[0].value) - window.percentages["BML"])
-  const toBuy = (Number($("#percentBML")[0].value) - window.percentages["BML"]) * window.totalValue / 100;
-//console.log(window.percentages["BML"])
-//console.log($("#percentBML"))
-//console.log(Number($("#percentBML")[0].value))
-//console.log($("#percentBML").text())
-console.log(toBuy)
-  swap(toBuy)
+  _.each(erc20s, (symbol, index, symbols) => {
+    console.log(symbol)
+    var percentage = 0
+    if(_.has(window.percentages, symbol)){
+      percentage = window.percentages[symbol]
+    }
+    const difference = Number($(`#percent${symbol}`)[0].value) - percentage
+    console.log('difference')
+    console.log(difference)
+    if (difference > 0.1){
+      console.log(difference)
+      console.log(symbol)
+      const toBuy = difference * window.totalValue / 100;
+      swap(toBuy, "USDC", symbol)
+    }
+  })
 });
 $('#submitButton').click( function(e) {
   e.preventDefault()
@@ -132,6 +152,19 @@ detectEthereumProvider().then(provider => {
 if (provider) {
   window.provider = provider
   //swap()
+//1. Import coingecko-api
+//const CoinGecko = require('coingecko-api');
+
+//2. Initiate the CoinGecko API Client
+const coins = require('./coins.json');
+  var a=_.findWhere(coins, {symbol: "USDC"}).address
+console.log(a)
+//const CoinGeckoClient = new CoinGecko();
+  //CoinGeckoClient.coins.list().then((data)=>{
+//console.log(data)
+  //});
+
+//console.log(data)
   console.log(provider)
 } else {
       console.log('Please install MetaMask!');
@@ -164,9 +197,9 @@ function handleAccountsChanged(accounts) {
         const balanceETH = ethers.utils.parseEther(ethValue.toString());
         $('#balanceETH').text(roundUp(ethValue));
         $('#verifiedETH').css("display","inline");
-        _.each(["BML", "USDC"], (symbol) => {
+        _.each(erc20s, (symbol) => {
           balanceOf(currentAccount, tokens[symbol]).then((balance) => {
-            $(`#balance${symbol}`).text(roundUp(balance/precisions[symbol]));
+            $(`#balance${symbol}`).text(roundUp(balance/Math.pow(10,symbolToPrecision[symbol]), 1));
             drawChart()
           })
         })
@@ -208,19 +241,20 @@ setInterval(
   }
   , 3000);
 
-window.prices = {"BML":20, "BTC": 62000, "ETH": 3000, "USDC" : 1}
-window.value = {"BML":0, "BTC": 0, "ETH": 0, "USDC" : 0}
-window.percentages = {"BML":0, "BTC": 0, "ETH": 100, "USDC" : 0}
-_.each(["BTC", "ETH", "USDC"], (symbol)=>{
+window.prices = {"BML":20, "USDC":1}
+window.percentages = {}
+_.each(_.reject(allCoins, (coin)=>{return coin == "BML"}), (symbol)=>{
+  console.log(symbol)
   $.get(`https://api.binance.com/api/v3/avgPrice?symbol=${symbol}BUSD`, (data) => {
     window.prices[symbol] = data.price
+    console.log(data.price)
     drawChart()
 })
 
 })
 
 
-async function swap(usdcToBuy){
+async function swap(toBuyUSD, fromToken, toToken){
 //const Web3 = require('web3');
 //const routerABI = require('./abis/v3SwapRouterABI.json');
 //const credentials = require('./credentials.json');
@@ -229,17 +263,24 @@ async function swap(usdcToBuy){
 //const privateKey = credentials.privateKey;
 //const activeAccount = window.ethereum.selectedAddress
 const activeAccount = "0x450A0cCFC21e42467040ad6d29B6E8a97B7ec68B"
+const fromTokenAddress = tokens[fromToken]
+const toTokenAddress = tokens[toToken]
 
 const routerAddress = `0xE592427A0AEce92De3Edee1F18E0157C05861564`; // Kovan Swap Router
-const fromTokenAddress = tokens["USDC"]; // Kovan WETH
-const toTokenAddress =tokens["BML"]; // Kovan DAI
+//const fromTokenAddress = tokens["USDC"]; // Kovan WETH
+//const toTokenAddress =tokens["BML"]; // Kovan DAI
 const routerContract = new ethers.Contract(routerAddress, routerABI, getSigner());
 const expiryDate = Math.floor(Date.now() / 1000) + 9000;
 
 (async () => {
-console.log((roundUp(usdcToBuy)).toString())
-	const qty = ethers.utils.parseUnits((roundUp(usdcToBuy)).toString(), 6);
-	console.log('qty',qty);
+  console.log((roundUp(toBuyUSD)).toString())
+console.log(fromToken)
+console.log(toToken)
+
+  const numTokensToBuy = toBuyUSD / window.prices[fromToken]
+  console.log(numTokensToBuy)
+  const qty = ethers.utils.parseUnits(roundUp(numTokensToBuy).toString(), symbolToPrecision[fromToken]);
+	console.log(qty.toString());
   const params = {
     tokenIn: fromTokenAddress,
     tokenOut: toTokenAddress,
@@ -272,6 +313,6 @@ console.log((roundUp(usdcToBuy)).toString())
 			//});
 		//}
 	//});
-	
+
 })();
 }
