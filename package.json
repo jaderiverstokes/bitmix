@@ -32,7 +32,6 @@
     "browserify-zlib": "^0.2.0",
     "coingecko-api": "^1.0.10",
     "stream-browserify": "^3.0.0",
-    "https-browserify": "^3.0.0",
     "@types/jquery": "^3.5.8",
     "@uniswap/sdk-core": "^3.0.1",
     "@uniswap/v3-sdk": "^3.5.1-optimism-regensis",
