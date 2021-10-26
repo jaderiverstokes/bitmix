@@ -12,11 +12,11 @@ var app = express();
 var server = http.createServer(app);
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(express.static(path.join(__dirname,'.')));
+app.use(express.static(path.join(__dirname,'dist')));
 //app.use(express.static(path.join(__dirname,'/public')));
-app.get('/', function(req,res){
-  res.sendFile(path.join(__dirname,'./public/index.html'));
-});
+//app.get('/', function(req,res){
+  //res.sendFile(path.join(__dirname,'./index.html'));
+//});
 //app.get('/main.js', function(req,res){
   //res.sendFile(path.join(__dirname,'./dist/main.js'));
 //});
@@ -47,7 +47,7 @@ app.post('/add', function(req,res){
 });
 const port = process.env.PORT || 3000
 server.listen(port,function(){
-    console.log("Server listening on port: port");
+    console.log(`Server listening on port: ${port}`);
 })
 
 var ethers = require('ethers');
