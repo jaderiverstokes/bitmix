@@ -1,5 +1,10 @@
 import { FeeAmount, TickMath,nearestUsableTick,TICK_SPACINGS, encodeSqrtRatioX96 } from '@uniswap/v3-sdk'
 import { CurrencyAmount, Token, TradeType, Percent} from "@uniswap/sdk-core";
+
+
+
+
+
 const { ChainId, Fetcher, DAI, USDC, WETH, Route, Trade, TokenAmount, SwapRouter, Pool } = require ("@uniswap/v3-sdk");
 const routerAddress = "0xE592427A0AEce92De3Edee1F18E0157C05861564"
 const poolAddress = "0x491bf019dbdf10404e27e0894b920ef893b63f68"
@@ -22,6 +27,7 @@ google.charts.setOnLoadCallback(drawChart);
 console.log(coins )
 //var symbolToAddress = _.object(_.pluck(coins, 'symbol'), _.pluck(coins, 'address'))
 var symbolToPrecision = _.object(_.pluck(coins, 'symbol'), _.pluck(coins, 'decimal'))
+//symbolToPrecision["BML"]
 function roundUp(num, precision=2) {
   precision = Math.pow(10, precision)
   return Math.ceil(num * precision) / precision
@@ -73,8 +79,6 @@ var values = _.map(allCoins, (symbol)=>{
   }
   //var price = window.prices[symbol]
   var value = Number($(`#balance${symbol}`).text() * price);
-  console.log(symbol)
-  console.log(value)
   symbolToValueUsd[symbol] = value;
   window.totalValue = totalValue
   totalValue += value;
@@ -86,9 +90,6 @@ _.each(allCoins, (symbol)=>{
   if (totalValue == 0){
     percentage = 0;
   }
-console.log(symbolToValueUsd[symbol])
-  console.log(percentage)
-  console.log(totalValue)
   window.percentages[symbol] = percentage;
   $(`#percent${symbol}`).val(roundUp(percentage));
 });
@@ -113,17 +114,12 @@ $('#rebalanceButton').click( function(e) {
     return
   }
   _.each(erc20s, (symbol, index, symbols) => {
-    console.log(symbol)
     var percentage = 0
     if(_.has(window.percentages, symbol)){
       percentage = window.percentages[symbol]
     }
     const difference = Number($(`#percent${symbol}`)[0].value) - percentage
-    console.log('difference')
-    console.log(difference)
     if (difference > 0.1){
-      console.log(difference)
-      console.log(symbol)
       const toBuy = difference * window.totalValue / 100;
       swap(toBuy, "USDC", symbol)
     }
@@ -148,9 +144,17 @@ $('#submitButton').click( function(e) {
     ,function(err){console.log(err)});
 });
 
+let currentAccount = null;
 detectEthereumProvider().then(provider => {
 if (provider) {
   window.provider = provider
+  window.ethereum
+  .request({ method: 'eth_accounts' })
+  .then(handleAccountsChanged)
+  .catch((err) => {
+    console.error(err);
+  });
+  window.ethereum.on('accountsChanged', handleAccountsChanged);
   //swap()
 //1. Import coingecko-api
 //const CoinGecko = require('coingecko-api');
@@ -158,7 +162,6 @@ if (provider) {
 //2. Initiate the CoinGecko API Client
 const coins = require('./coins.json');
   var a=_.findWhere(coins, {symbol: "USDC"}).address
-console.log(a)
 //const CoinGeckoClient = new CoinGecko();
   //CoinGeckoClient.coins.list().then((data)=>{
 //console.log(data)
@@ -174,14 +177,6 @@ console.log(a)
 })
 
 
-let currentAccount = null;
-window.ethereum
-.request({ method: 'eth_accounts' })
-.then(handleAccountsChanged)
-.catch((err) => {
-  console.error(err);
-});
-window.ethereum.on('accountsChanged', handleAccountsChanged);
 
 function handleAccountsChanged(accounts) {
   if (accounts.length === 0) {
@@ -198,8 +193,12 @@ function handleAccountsChanged(accounts) {
         $('#balanceETH').text(roundUp(ethValue));
         $('#verifiedETH').css("display","inline");
         _.each(erc20s, (symbol) => {
+console.log(tokens[symbol])
+
           balanceOf(currentAccount, tokens[symbol]).then((balance) => {
-            $(`#balance${symbol}`).text(roundUp(balance/Math.pow(10,symbolToPrecision[symbol]), 1));
+console.log(symbolToPrecision[symbol])
+            console.log(roundUp(balance/Math.pow(10,symbolToPrecision[symbol]), 1))
+            $(`#balance${symbol}`).text(roundUp(balance/Math.pow(10,symbolToPrecision[symbol]), 2));
             drawChart()
           })
         })
@@ -233,7 +232,7 @@ setInterval(
   function(){
     balanceOf(window.ethereum.selectedAddress).then((balance) => {
       if( balance /100 != $('#balanceBML').text()){
-        alert("You have received 10 BML!")
+        alert("You have received BML!")
         $('#balanceBML').text(balance/100);
         drawChart()
       }
@@ -316,3 +315,5 @@ console.log(toToken)
 
 })();
 }
+
+

@@ -1,5 +1,11 @@
 [
   {
+    "address": "null",
+    "symbol": "BML",
+    "decimal": 2,
+    "type": "default"
+  },
+  {
     "address": "0x4E84E9e5fb0A972628Cf4568c403167EF1D40431",
     "symbol": "$FFC",
     "decimal": 18,
