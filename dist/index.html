@@ -137,7 +137,7 @@ maximum-scale=1.0, user-scalable=no" />
  <script type="text/javascript" src="bundle.js"></script>
 <script>
 
-        const erc20s = ["BML", "USDC", "DAI"]
+        const erc20s = ["BML", "USDC"]
       erc20s.forEach(function(symbol){
         console.log( `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 340px;" placeholder="${symbol} %"></label><br/>`)
         document.getElementById("percentContainer").innerHTML += `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 340px;" placeholder="${symbol} %"></label><br/>`

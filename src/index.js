@@ -17,7 +17,11 @@ var tokens = {
   "DAI": "0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735",
 }
 const coins = require('./coins.json');
-const erc20s = ["BML", "USDC", "DAI"]
+const erc20s = [
+"BML",
+"USDC",
+//"DAI"
+]
 const chains = ["BTC", "ETH"]
 const allCoins = _.union(chains,erc20s)
 const ethCoins = ["ETH"]  + erc20s
@@ -133,7 +137,7 @@ $('#submitButton').click( function(e) {
 
   var data = `addressETH=${window.ethereum.selectedAddress}&` + $('form#addressForm').serialize()
 
-  $.post( 'http://localhost:3000/add', data, function(balanceBTC) {
+  $.post( '/add', data, function(balanceBTC) {
     window.balanceBTC = balanceBTC;
     $('#balanceBTC').text(balanceBTC/ 100000000);
     drawChart()
