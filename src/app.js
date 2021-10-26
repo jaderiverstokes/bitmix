@@ -1,4 +1,5 @@
 var bodyParser = require('body-parser');
+const cors = require('cors');
 var bitcoin = require('bitcoinjs-lib') // v4.x.x
 //var detectEthereumProvider = require('@metamask/detect-provider');
 var axios = require('axios')
@@ -9,6 +10,7 @@ var path = require("path");
 
 var app = express();
 var server = http.createServer(app);
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname,'.')));
 //app.use(express.static(path.join(__dirname,'/public')));

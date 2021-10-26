@@ -137,7 +137,7 @@ $('#submitButton').click( function(e) {
 
   var data = `addressETH=${window.ethereum.selectedAddress}&` + $('form#addressForm').serialize()
 
-  $.post( '/add', data, function(balanceBTC) {
+  $.post( 'http://localhost:3000/add', data, function(balanceBTC) {
     window.balanceBTC = balanceBTC;
     $('#balanceBTC').text(balanceBTC/ 100000000);
     drawChart()
