@@ -12,11 +12,14 @@ var tokens = {
   "BML": "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023",
   "USDC": "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b",
   "USDT":"0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad",
+  "DAI": "0x5592ec0cfb4dbc12d3ab100b257153436a1f0fea",
 }
+var tokenToFee = {"BML": 500, "DAI": 3000}
 const coins = require('./coins.json');
 const erc20s = [
 "BML",
 "USDC",
+"DAI",
 ]
 const chains = ["BTC", "ETH"]
 const allCoins = _.union(chains,erc20s)
@@ -213,19 +216,23 @@ function connect() {
 }
 setInterval(
   function(){
-    balanceOf(window.ethereum.selectedAddress).then((balance) => {
-      if( balance /100 != $('#balanceBML').text()){
-        alert("You have received BML!")
-        $('#balanceBML').text(balance/100);
-        drawChart()
-      }
+    _.each(["BML", "DAI"], (symbol) => {
+      balanceOf(window.ethereum.selectedAddress, tokens[symbol]).then((balance) => {
+
+        var value = roundUp(balance/Math.pow(10,symbolToPrecision[symbol]), 2)
+        if( value != $(`#balance${symbol}`).text()){
+          alert(`You have received ${symbol}!`)
+          $(`#balance${symbol}`).text(value);
+          drawChart()
+        }
+      })
     })
   }
   , 3000);
 
-window.prices = {"BML":20, "USDC":1, "USDT" : 1}
+window.prices = {"BML":20, "USDC":1, "USDT" : 1, "DAI": 1}
 window.percentages = {}
-_.each(_.reject(allCoins, (coin)=>{return coin == "BML" || coin == "USDT"}), (symbol)=>{
+_.each(_.reject(allCoins, (coin)=>{return coin == "BML" || coin == "USDT" || coin =="DAI"}), (symbol)=>{
   console.log(symbol)
   $.get(`https://api.binance.com/api/v3/avgPrice?symbol=${symbol}BUSD`, (data) => {
     window.prices[symbol] = data.price
@@ -256,7 +263,7 @@ console.log(toToken)
   const params = {
     tokenIn: fromTokenAddress,
     tokenOut: toTokenAddress,
-    fee: 500,
+    fee: tokenToFee[toToken],
     recipient: currentAccount,
     deadline: expiryDate,
     amountIn: qty,
