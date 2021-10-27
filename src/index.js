@@ -97,9 +97,9 @@ var data = google.visualization.arrayToDataTable(data.concat(values))
 
 var options = {
   title: 'Investing\n            $' + roundUp(totalValue),
-  titleTextStyle: {fontSize: 24},
+  titleTextStyle: {fontSize: 20},
   colors: [ '#ff8c00', 'grey', 'red','green', 'blue'],
-  legend:{position: 'top'}
+  legend:{position: 'top', maxLines: 5}
 };
 
 var chart = new google.visualization.PieChart(document.getElementById('piechart'));
