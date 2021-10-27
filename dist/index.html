@@ -124,7 +124,7 @@ div.google-visualization-tooltip > ul > li > span {
        <p style="padding: 5px; border: 1px solid white; width: 340px; border-radius: 2px">420</p>
       <label>Signature</label>
       <br/>
-      <textarea class="form-inline" id="text" name="signature" required rows="3" cols="48" style="width: 340px; background-color: black; color: white; border-radius: 2px;"></textarea>
+      <textarea class="form-inline" id="text" name="signature" required rows="3" cols="48" style="width: 340px; border: 1px solid white; background-color: black; color: white; border-radius: 2px;"></textarea>
       <br/>
       <button type ="submit" id="submitButton" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
       </div>
@@ -169,11 +169,11 @@ div.google-visualization-tooltip > ul > li > span {
       <br/>
       <br/>
       <label>BTC %
-      <input class="form-control" type ="text" id ="percentBTC" name="percentBTC" required style="width: 300px; background-color: black; color: white;" placeholder="BTC %" disabled>
+      <input class="form-control" type ="text" id ="percentBTC" name="percentBTC" required style="width: 80%; background-color: black; color: white;" placeholder="BTC %" disabled>
       </label>
       <br/>
 
-      <label>ETH %<input class="form-control" type ="text" id ="percentETH" name="percentETH" required style="width: 300px; background-color: black; color: white;" placeholder="ETH %" disabled></label><br/>
+      <label>ETH %<input class="form-control" type ="text" id ="percentETH" name="percentETH" required style="width: 80%; background-color: black; color: white;" placeholder="ETH %" disabled></label><br/>
 
       </div>
 
@@ -193,8 +193,8 @@ const symbolToName = {"BML": "BitMix Ledger",
 "DAI": "Dai"}
       erc20s.forEach(function(symbol){
 
-        console.log( `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 300px;" placeholder="${symbol} %"></label><br/>`)
-        document.getElementById("percentContainer").innerHTML += `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 300px; background-color: black; color: white;" placeholder="${symbol} %"></label><br/>`
+        console.log( `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 80%;" placeholder="${symbol} %"></label><br/>`)
+        document.getElementById("percentContainer").innerHTML += `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 80%; background-color: black; color: white;" placeholder="${symbol} %"></label><br/>`
         const image = `<img  src="./images/${symbol}.png" style="height: 30px; width: 30px; margin-left:10px;"/>`
 
         const balanceRow = `

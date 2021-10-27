@@ -245,7 +245,7 @@ const checkPrices = function(){
   }
 setInterval(checkPrices, 3000);
 
-window.prices = {"BML":20, "USDC":1, "USDT" : 1, "DAI": 1}
+window.prices = {"BML":100, "USDC":1, "USDT" : 1, "DAI": 1}
 window.percentages = {}
 _.each(_.reject(allCoins, (coin)=>{return coin == "BML" || coin == "USDC" || coin =="DAI"}), (symbol)=>{
   console.log(symbol)
