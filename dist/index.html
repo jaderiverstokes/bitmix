@@ -63,31 +63,31 @@ div.google-visualization-tooltip > ul > li > span {
         <div id="balanceContainer" class="container">
 
         <div class="row">
-        <div class="col-sm-1" style="padding: 0px; width: 5%">
+        <div class="col-xs-1" style="padding: 0px; width: 60px">
 <img  src="./images/BTC.png" style="height: 30px; width: 30px; margin-left:10px;"/>
         </div>
-        <div class="col-sm-1" style="padding: 0px">
+        <div class="col-xs-4" style="padding: 0px">
           <div class="container">
             <div class="row">
               Bitcoin
             </div>
             <div class="row">
-<span id="balanceBTC" style="padding: 5px; width: 300px">0</span>BTC
+              <span id="balanceBTC" style="padding: 5px; width: 300px; color: grey">0</span><span style="color:grey;">BTC</span>
             </div>
           </div>
         </div>
         </div>
         <div class="row">
-        <div class="col-sm-1" style="padding: 0px; width: 5%">
+        <div class="col-xs-1" style="padding: 0px; width: 60px">
 <img  src="./images/ETH.png" style="height: 30px; width: 30px; margin-left:10px;"/>
         </div>
-        <div class="col-sm-1" style="padding: 0px">
+        <div class="col-xs-4" style="padding: 0px">
           <div class="container">
             <div class="row">
               Ethereum
             </div>
             <div class="row">
-<span id="balanceETH" style="padding: 5px; width: 300px">0</span>ETH
+              <span id="balanceETH" style="padding: 5px; width: 300px; color: grey">0</span><span style="color:grey;">ETH</span>
             </div>
           </div>
         </div>
@@ -195,16 +195,16 @@ const symbolToName = {"BML": "BitMix Ledger",
 
         const balanceRow = `
         <div class="row">
-        <div class="col-sm-1" style="padding: 0px; width: 5%">
+        <div class="col-xs-1" style="padding: 0px; width: 60px;">
         ${image}
         </div>
-        <div class="col-sm-1" style="padding: 0px">
+        <div class="col-xs-4" style="padding: 0px;">
           <div class="container">
             <div class="row">
 ${symbolToName[symbol]}
             </div>
             <div class="row">
-<span id="balance${symbol}" style="padding: 5px; width: 300px">0</span>${symbol}
+<span id="balance${symbol}" style="padding: 5px; width: 200px; color: grey">0</span><span style="color:grey;">${symbol}</span>
             </div>
           </div>
         </div>
