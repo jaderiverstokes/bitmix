@@ -20,7 +20,6 @@ const coins = require('./coins.json');
 const erc20s = [
 "BML",
 "USDC",
-//"DAI"
 ]
 const chains = ["BTC", "ETH"]
 const allCoins = _.union(chains,erc20s)
@@ -28,10 +27,7 @@ const ethCoins = ["ETH"]  + erc20s
 
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
-console.log(coins )
-//var symbolToAddress = _.object(_.pluck(coins, 'symbol'), _.pluck(coins, 'address'))
 var symbolToPrecision = _.object(_.pluck(coins, 'symbol'), _.pluck(coins, 'decimal'))
-//symbolToPrecision["BML"]
 function roundUp(num, precision=2) {
   precision = Math.pow(10, precision)
   return Math.ceil(num * precision) / precision
@@ -81,7 +77,6 @@ var values = _.map(allCoins, (symbol)=>{
   if(_.has(window.prices, symbol)){
     price = window.prices[symbol]
   }
-  //var price = window.prices[symbol]
   var value = Number($(`#balance${symbol}`).text() * price);
   symbolToValueUsd[symbol] = value;
   window.totalValue = totalValue
@@ -159,19 +154,6 @@ if (provider) {
     console.error(err);
   });
   window.ethereum.on('accountsChanged', handleAccountsChanged);
-  //swap()
-//1. Import coingecko-api
-//const CoinGecko = require('coingecko-api');
-
-//2. Initiate the CoinGecko API Client
-const coins = require('./coins.json');
-  var a=_.findWhere(coins, {symbol: "USDC"}).address
-//const CoinGeckoClient = new CoinGecko();
-  //CoinGeckoClient.coins.list().then((data)=>{
-//console.log(data)
-  //});
-
-//console.log(data)
   console.log(provider)
 } else {
       console.log('Please install MetaMask!');
@@ -258,20 +240,11 @@ _.each(_.reject(allCoins, (coin)=>{return coin == "BML"}), (symbol)=>{
 
 
 async function swap(toBuyUSD, fromToken, toToken){
-//const Web3 = require('web3');
-//const routerABI = require('./abis/v3SwapRouterABI.json');
-//const credentials = require('./credentials.json');
-
-//const web3 = new Web3(`https://kovan.infura.io/v3/${credentials.infuraKey}`);
-//const privateKey = credentials.privateKey;
-//const activeAccount = window.ethereum.selectedAddress
 const activeAccount = "0x450A0cCFC21e42467040ad6d29B6E8a97B7ec68B"
 const fromTokenAddress = tokens[fromToken]
 const toTokenAddress = tokens[toToken]
 
 const routerAddress = `0xE592427A0AEce92De3Edee1F18E0157C05861564`; // Kovan Swap Router
-//const fromTokenAddress = tokens["USDC"]; // Kovan WETH
-//const toTokenAddress =tokens["BML"]; // Kovan DAI
 const routerContract = new ethers.Contract(routerAddress, routerABI, getSigner());
 const expiryDate = Math.floor(Date.now() / 1000) + 9000;
 
@@ -298,24 +271,8 @@ console.log(toToken)
   let gas_price = ethers.utils.hexlify(parseInt(2389890000))
 	let transactionObject = {
     gasLimit: ethers.utils.hexlify(10000000), // 100000
-    //gasPrice: gas_price,
-		//data: encoded_tx,
-		//from: activeAccount,
-		//to: routerAddress
 	};
   routerContract.exactInputSingle(params, transactionObject).then((data)=>{console.log(data)});
-  //console.log(tx_builder)
-	//let encoded_tx = tx_builder.encodeABI();
-
-	//web3.eth.accounts.signTransaction(transactionObject, activeAccount.privateKey, (error, signedTx) => {
-		//if (error) {
-			//console.log(error);
-		//} else {
-			//web3.eth.sendSignedTransaction(signedTx.rawTransaction).on('receipt', (receipt) => {
-				//console.log(receipt);
-			//});
-		//}
-	//});
 
 })();
 }
