@@ -20,6 +20,7 @@ const coins = require('./coins.json');
 const erc20s = [
 "BML",
 "USDC",
+"DAI",
 ]
 const chains = ["BTC", "ETH"]
 const allCoins = _.union(chains,erc20s)
@@ -226,9 +227,9 @@ setInterval(
   }
   , 3000);
 
-window.prices = {"BML":20, "USDC":1}
+window.prices = {"BML":20, "USDC":1, "USDT" : 1}
 window.percentages = {}
-_.each(_.reject(allCoins, (coin)=>{return coin == "BML"}), (symbol)=>{
+_.each(_.reject(allCoins, (coin)=>{return coin == "BML" || coin == "USDT"}), (symbol)=>{
   console.log(symbol)
   $.get(`https://api.binance.com/api/v3/avgPrice?symbol=${symbol}BUSD`, (data) => {
     window.prices[symbol] = data.price
@@ -240,7 +241,6 @@ _.each(_.reject(allCoins, (coin)=>{return coin == "BML"}), (symbol)=>{
 
 
 async function swap(toBuyUSD, fromToken, toToken){
-const activeAccount = "0x450A0cCFC21e42467040ad6d29B6E8a97B7ec68B"
 const fromTokenAddress = tokens[fromToken]
 const toTokenAddress = tokens[toToken]
 
@@ -261,7 +261,7 @@ console.log(toToken)
     tokenIn: fromTokenAddress,
     tokenOut: toTokenAddress,
     fee: 500,
-    recipient: activeAccount,
+    recipient: currentAccount,
     deadline: expiryDate,
     amountIn: qty,
     amountOutMinimum: 0,
