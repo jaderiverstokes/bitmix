@@ -75,19 +75,19 @@ var values = _.map(allCoins, (symbol)=>{
   var value = {}
   var price = 0
   if(_.has(window.prices, symbol)){
-    price = window.prices[symbol]
+    price = window.prices[symbol];
   }
   var value = Number($(`#balance${symbol}`).text() * price);
   symbolToValueUsd[symbol] = value;
-  window.totalValue = totalValue
   totalValue += value;
   return [`${symbol}: $${roundUp(value)}`, value]
 });
+window.totalValue = totalValue
 
 _.each(allCoins, (symbol)=>{
-  var percentage = (symbolToValueUsd[symbol] / totalValue) * 100;
-  if (totalValue == 0){
-    percentage = 0;
+  var percentage = 0;
+  if (totalValue != 0){
+    var percentage = (symbolToValueUsd[symbol] / totalValue) * 100;
   }
   window.percentages[symbol] = percentage;
   $(`#percent${symbol}`).val(roundUp(percentage));
@@ -97,8 +97,9 @@ var data = google.visualization.arrayToDataTable(data.concat(values))
 
 var options = {
   title: 'Investing\n            $' + roundUp(totalValue),
+  backgroundColor: { fill:'transparent' },
   titleTextStyle: {fontSize: 20},
-  colors: [ '#ff8c00', 'grey', 'red','green', 'blue'],
+  colors: [ '#ff8c00', '#95a5a6', '#e74c3c','#2ecc71', '#3498db'],
   legend:{position: 'top', maxLines: 5}
 };
 
@@ -124,6 +125,7 @@ $('#rebalanceButton').click( function(e) {
     }
   })
 });
+
 $('#submitButton').click( function(e) {
   e.preventDefault()
   if (!window.ethereum.selectedAddress){
@@ -214,25 +216,24 @@ function connect() {
       }
     });
 }
-setInterval(
-  function(){
+
+const checkPrices = function(){
     _.each(["BML", "DAI"], (symbol) => {
       balanceOf(window.ethereum.selectedAddress, tokens[symbol]).then((balance) => {
-
         var value = roundUp(balance/Math.pow(10,symbolToPrecision[symbol]), 2)
         if( value != $(`#balance${symbol}`).text()){
-          alert(`You have received ${symbol}!`)
+          alert(`You have received ${symbol}! New balance: ${value} ${symbol}`)
           $(`#balance${symbol}`).text(value);
           drawChart()
         }
       })
     })
   }
-  , 3000);
+setInterval(checkPrices, 3000);
 
 window.prices = {"BML":20, "USDC":1, "USDT" : 1, "DAI": 1}
 window.percentages = {}
-_.each(_.reject(allCoins, (coin)=>{return coin == "BML" || coin == "USDT" || coin =="DAI"}), (symbol)=>{
+_.each(_.reject(allCoins, (coin)=>{return coin == "BML" || coin == "USDC" || coin =="DAI"}), (symbol)=>{
   console.log(symbol)
   $.get(`https://api.binance.com/api/v3/avgPrice?symbol=${symbol}BUSD`, (data) => {
     window.prices[symbol] = data.price

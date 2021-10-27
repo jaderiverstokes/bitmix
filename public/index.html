@@ -15,6 +15,8 @@ maximum-scale=1.0, user-scalable=no" />
 <!--Bootstrap-->
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
 
 <!--Metamask-->
 <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
@@ -30,100 +32,144 @@ maximum-scale=1.0, user-scalable=no" />
 
 <!--Uniswap-->
 <!--<script type="module" src="node_modules/@uniswap/sdk/dist/sdk.esm.js"></script>-->
+<style>
+body {
+  font-family: "Open Sans", sans-serif;
+  background-color: black !important;
+  color: white;
+}
+#piechart text {
+  fill: white !important;
+  background-color: black !important;
+}
+div.google-visualization-tooltip > ul > li > span {
+    color: #ff0000 !important;
+  }
+</style>
 </head>
 
 <body>
-<div class="container">
+<div class="container" style="width: 100%;">
 <div class="row">
-<div class="col-md-6">
+
+<div class="col-md-4">
   <header>
-    <h2>
-      <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoCGG7mO6bQ7OE7T4DAR5ssdJ5BFgeLVjnuWlFdIE&s=0" style="height: 30px; width: 30px; margin-left:10px; margin-top: -10px"/>
-      BTC</h2>
+    <h2>Crypto Portfolio</h2>
   </header>
-  <div>
-  <form action="/add" method="POST" id="addressForm">
-    <fieldset>
-      <h3>Add a new address.</h3>
-      <label>Address</label>
-      <img id="verifiedBTC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/1200px-Twitter_Verified_Badge.svg.png" style="height: 20px; width: 20px; display: none;"/>
-      <br/>
-      <input class="form-control" type ="text" id = "addressBTC" name="addressBTC" required style="width: 340px;">
-      <div id="signatureForm">
-      <h3>Verify by signing message.</h3>
-      <h5>Verify address to earn 10 BML!
-        <a href="https://coinguides.org/sign-message-ledger-nano-s-x/" target="_blank" rel="noopener noreferrer" class="badge badge-info">i</a>
-      </h5>
-      <label>Message</label>
-       <p style="padding: 5px; border: 2px solid grey; width: 340px">420</p>
-      <label>Signature</label>
-      <br/>
-      <textarea class="form-inline" id="text" name="signature" required rows="3" cols="48"></textarea>
-      <br/>
-      <button type ="submit" id="submitButton" class="btn btn-primary">Submit</button>
-      </div>
-      <br/>
-      <div>&#8383;
-       <span id="balanceBTC" style="padding: 10px; border: 2px solid orange; width: 340px">0</span>
-      </div>
-    </fieldset>
-  </form>
-  </div>
-
-  <header>
-    <h2>
-      <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqYGDCoZfjGNUFVONJkyzqFFKZwlgDlTYHiGSt4JU&s=0" style="height: 30px; width: 20px; margin-left:10px; margin-top: -10px"/>
-      ETH</h2>
-  </header>
-
-      <h3>Connect to Metamask.</h3>
-      <button id="connectButton" class="btn btn-primary">
-
-      <img  src="https://i0.wp.com/kindalame.com/wp-content/uploads/2021/05/metamask-fox-wordmark-horizontal.png?resize=1280%2C480&ssl=1" style="height:30px; width:100px; margin-left:10px; margin-right: 10px; margin-top:-10px; margin-bottom:-10px;"/>
-        </button>
-      <a href="https://metamask.app.link/dapp/bitmix.herokuapp.com/">Mobile?</a>
-  <br/>
-  <br/>
-
-  <label>Address</label>
-  <img id="verifiedETH" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/1200px-Twitter_Verified_Badge.svg.png" style="height: 20px; width: 20px; display: none;"/>
-  <br/>
-  <p id="addressETH" style="padding: 5px; border: 2px solid grey; width: 340px">...</p>
    <div>
    <br/>
-   Ξ
-   <span id="balanceETH" style="padding: 5px; border: 2px solid grey; width: 340px">0</span>
 
 
-    <span id="balanceContainer">
-   </span>
+        <div id="balanceContainer" class="container">
+
+        <div class="row">
+        <div class="col-sm-1" style="padding: 0px; width: 5%">
+<img  src="./images/BTC.png" style="height: 30px; width: 30px; margin-left:10px;"/>
+        </div>
+        <div class="col-sm-1" style="padding: 0px">
+          <div class="container">
+            <div class="row">
+              Bitcoin
+            </div>
+            <div class="row">
+<span id="balanceBTC" style="padding: 5px; width: 300px">0</span>BTC
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-1" style="padding: 0px; width: 5%">
+<img  src="./images/ETH.png" style="height: 30px; width: 30px; margin-left:10px;"/>
+        </div>
+        <div class="col-sm-1" style="padding: 0px">
+          <div class="container">
+            <div class="row">
+              Ethereum
+            </div>
+            <div class="row">
+<span id="balanceETH" style="padding: 5px; width: 300px">0</span>ETH
+            </div>
+          </div>
+        </div>
+        </div>
+         </div>
+        <!--<div class="row">-->
+    <!--<span id="balanceContainer">-->
+   <!--</span>-->
+
+        <!--<div class="container">-->
+          <!--<div class="row">-->
 
    </div>
 
 
 
+      <br/>
+  <div>
+  <form action="/add" method="POST" id="addressForm">
+    <fieldset>
+      <label>BTC Address</label>
+      <img id="verifiedBTC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/1200px-Twitter_Verified_Badge.svg.png" style="height: 20px; width: 20px; display: none;"/>
+      <br/>
+      <input class="form-control" type ="text" id = "addressBTC" name="addressBTC" required style="width: 340px; background-color: black; color: white;">
+      <div id="signatureForm">
+      <h5>Verify address to earn 10 BML!
+        <a href="https://coinguides.org/sign-message-ledger-nano-s-x/" target="_blank" rel="noopener noreferrer" class="badge badge-info">i</a>
+      </h5>
+      <label>Message</label>
+       <p style="padding: 5px; border: 1px solid white; width: 340px; border-radius: 2px">420</p>
+      <label>Signature</label>
+      <br/>
+      <textarea class="form-inline" id="text" name="signature" required rows="3" cols="48" style="width: 340px; background-color: black; color: white; border-radius: 2px;"></textarea>
+      <br/>
+      <button type ="submit" id="submitButton" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
+      </div>
 
+
+
+
+    </fieldset>
+  </form>
+  </div>
+      <br/>
+
+
+
+  <label>ETH Address</label>
+  <img id="verifiedETH" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/1200px-Twitter_Verified_Badge.svg.png" style="height: 20px; width: 20px; display: none;;"/>
+  <br/>
+  <p id="addressETH" style="padding: 6px; border: 1px solid white; width: 350px; border-radius: 4px">...</p>
+
+  <br/>
+
+      <button id="connectButton" class="btn btn-primary">
+
+      <img  src="https://i0.wp.com/kindalame.com/wp-content/uploads/2021/05/metamask-fox-wordmark-horizontal.png?resize=1280%2C480&ssl=1" style="height:30px; width:100px; margin-left:10px; margin-right: 10px; margin-top:-10px; margin-bottom:-10px;"/>
+        </button>
+      <a href="https://metamask.app.link/dapp/bitmix.herokuapp.com/">Mobile?</a>
+
+  <br/>
 
 </div>
 
 
 
 
-<div class="col-md-6" style="margin-top: 10px">
+<div class="col-md-6" style="margin-top: 10px; padding: 0px;">
   <div>
     <div id="piechart" style="width:100%; height: 400px;"></div>
   </div>
+
+      <div id="percentContainer" style="margin-left: 20%; margin-right:20%">
     <button type ="submit" id="rebalanceButton" class="btn btn-primary">Rebalance</button>
       <br/>
       <br/>
-
-      <div id="percentContainer">
       <label>BTC %
-      <input class="form-control" type ="text" id ="percentBTC" name="percentBTC" required style="width: 340px;" placeholder="BTC %" disabled>
+      <input class="form-control" type ="text" id ="percentBTC" name="percentBTC" required style="width: 300px; background-color: black; color: white;" placeholder="BTC %" disabled>
       </label>
       <br/>
 
-      <label>ETH %<input class="form-control" type ="text" id ="percentETH" name="percentETH" required style="width: 340px;" placeholder="ETH %" disabled></label><br/>
+      <label>ETH %<input class="form-control" type ="text" id ="percentETH" name="percentETH" required style="width: 300px; background-color: black; color: white;" placeholder="ETH %" disabled></label><br/>
 
       </div>
 
@@ -138,10 +184,33 @@ maximum-scale=1.0, user-scalable=no" />
 <script>
 
         const erc20s = ["BML", "USDC", "DAI"]
+const symbolToName = {"BML": "BitMix Ledger",
+"USDC": "USD Coin",
+"DAI": "Dai"}
       erc20s.forEach(function(symbol){
-        console.log( `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 340px;" placeholder="${symbol} %"></label><br/>`)
-        document.getElementById("percentContainer").innerHTML += `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 340px;" placeholder="${symbol} %"></label><br/>`
-        document.getElementById("balanceContainer").innerHTML += `${symbol}<span id="balance${symbol}" style="padding: 5px; border: 2px solid grey; width: 340px">0</span>`
+
+        console.log( `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 300px;" placeholder="${symbol} %"></label><br/>`)
+        document.getElementById("percentContainer").innerHTML += `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 300px; background-color: black; color: white;" placeholder="${symbol} %"></label><br/>`
+        const image = `<img  src="./images/${symbol}.png" style="height: 30px; width: 30px; margin-left:10px;"/>`
+
+        const balanceRow = `
+        <div class="row">
+        <div class="col-sm-1" style="padding: 0px; width: 5%">
+        ${image}
+        </div>
+        <div class="col-sm-1" style="padding: 0px">
+          <div class="container">
+            <div class="row">
+${symbolToName[symbol]}
+            </div>
+            <div class="row">
+<span id="balance${symbol}" style="padding: 5px; width: 300px">0</span>${symbol}
+            </div>
+          </div>
+        </div>
+        </div>
+        `
+        document.getElementById("balanceContainer").innerHTML += balanceRow
       })
 
 
