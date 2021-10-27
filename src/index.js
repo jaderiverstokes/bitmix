@@ -6,21 +6,17 @@ import { CurrencyAmount, Token, TradeType, Percent} from "@uniswap/sdk-core";
 
 
 const { ChainId, Fetcher, DAI, USDC, WETH, Route, Trade, TokenAmount, SwapRouter, Pool } = require ("@uniswap/v3-sdk");
-const routerAddress = "0xE592427A0AEce92De3Edee1F18E0157C05861564"
 const poolAddress = "0x491bf019dbdf10404e27e0894b920ef893b63f68"
 var swapAbi  =require(  "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json");
 var tokens = {
   "BML": "0x0575cBFcA796d335A911D7D9f43f8b4255FFd023",
   "USDC": "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b",
   "USDT":"0x3b00ef435fa4fcff5c209a37d1f3dcff37c705ad",
-  "UNI": "0x03e6c12ef405ac3f642b9184eded8e1322de1a9e",
-  "DAI": "0xc7AD46e0b8a400Bb3C915120d284AafbA8fc4735",
 }
 const coins = require('./coins.json');
 const erc20s = [
 "BML",
 "USDC",
-"DAI",
 ]
 const chains = ["BTC", "ETH"]
 const allCoins = _.union(chains,erc20s)
