@@ -156,6 +156,20 @@ if (provider) {
     console.error(err);
   });
   window.ethereum.on('accountsChanged', handleAccountsChanged);
+  //console.log(data);
+  //$.get(`https://api.opensea.io/api/v1/assets?owner=${currentAccount}`, (data) => {
+  $.get(`https://api.opensea.io/api/v1/assets?owner=0x450A0cCFC21e42467040ad6d29B6E8a97B7ec68B`, (data) => {
+    _.each(data.assets, (nft) => {
+      console.log(nft.image_thumbnail_url)
+      const image = `
+      <a href="https://opensea.io/assets/${nft.asset_contract.address}/${nft.token_id}" target="_blank">
+      <img  src="${nft.image_thumbnail_url}" style="height: 30px; width: 30px; margin-left:10px;"/>
+      </a>
+      `
+      $('#nfts').append(image)
+    })
+    console.log(data.assets);
+  })
   console.log(provider)
 } else {
       console.log('Please install MetaMask!');
