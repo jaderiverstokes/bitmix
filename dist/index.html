@@ -92,7 +92,7 @@ maximum-scale=1.0, user-scalable=no" />
    <div>
    <br/>
    Ξ
-   <span id="balanceETH" style="padding: 10px; border: 2px solid grey; width: 340px">0</span>
+   <span id="balanceETH" style="padding: 5px; border: 2px solid grey; width: 340px">0</span>
 
 
     <span id="balanceContainer">
@@ -141,7 +141,7 @@ maximum-scale=1.0, user-scalable=no" />
       erc20s.forEach(function(symbol){
         console.log( `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 340px;" placeholder="${symbol} %"></label><br/>`)
         document.getElementById("percentContainer").innerHTML += `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 340px;" placeholder="${symbol} %"></label><br/>`
-        document.getElementById("balanceContainer").innerHTML += `${symbol}<span id="balance${symbol}" style="padding: 10px; border: 2px solid grey; width: 340px">0</span>`
+        document.getElementById("balanceContainer").innerHTML += `${symbol}<span id="balance${symbol}" style="padding: 5px; border: 2px solid grey; width: 340px">0</span>`
       })
 
 

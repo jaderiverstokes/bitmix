@@ -98,7 +98,7 @@ var data = google.visualization.arrayToDataTable(data.concat(values))
 var options = {
   title: 'Investing\n            $' + roundUp(totalValue),
   titleTextStyle: {fontSize: 24},
-  colors: [ '#ff8c00', 'grey', 'red','green'],
+  colors: [ '#ff8c00', 'grey', 'red','green', 'blue'],
   legend:{position: 'top'}
 };
 
