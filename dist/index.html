@@ -35,7 +35,7 @@ maximum-scale=1.0, user-scalable=no" />
 <style>
 body {
   font-family: "Open Sans", sans-serif;
-  background-color: #181A1B !important;
+  background-color: #191B1C !important;
   color: white;
 }
 #piechart text {
@@ -115,7 +115,7 @@ div.google-visualization-tooltip > ul > li > span {
       <label>BTC Address</label>
       <img id="verifiedBTC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Twitter_Verified_Badge.svg/1200px-Twitter_Verified_Badge.svg.png" style="height: 20px; width: 20px; display: none;"/>
       <br/>
-      <input class="form-control" type ="text" id = "addressBTC" name="addressBTC" required style="width: 340px; background-color: #181A1B; color: white;">
+      <input class="form-control" type ="text" id = "addressBTC" name="addressBTC" required style="width: 340px; background-color: #191B1C; color: white;">
       <div id="signatureForm">
       <h5>Verify address to earn 10 BML!
         <a href="https://coinguides.org/sign-message-ledger-nano-s-x/" target="_blank" rel="noopener noreferrer" class="badge badge-info">i</a>
@@ -124,7 +124,7 @@ div.google-visualization-tooltip > ul > li > span {
        <p style="padding: 5px; border: 1px solid white; width: 340px; border-radius: 2px">420</p>
       <label>Signature</label>
       <br/>
-      <textarea class="form-inline" id="text" name="signature" required rows="3" cols="48" style="width: 340px; border: 1px solid white; background-color: #181A1B; color: white; border-radius: 2px;"></textarea>
+      <textarea class="form-inline" id="text" name="signature" required rows="3" cols="48" style="width: 340px; border: 1px solid white; background-color: #191B1C; color: white; border-radius: 2px;"></textarea>
       <br/>
       <button type ="submit" id="submitButton" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
       </div>
@@ -169,11 +169,11 @@ div.google-visualization-tooltip > ul > li > span {
       <br/>
       <br/>
       <label>BTC %
-      <input class="form-control" type ="text" id ="percentBTC" name="percentBTC" required style="width: 80%; background-color: #181A1B; color: white;" placeholder="BTC %" disabled>
+      <input class="form-control" type ="text" id ="percentBTC" name="percentBTC" required style="width: 80%; background-color: #191B1C; color: white;" placeholder="BTC %" disabled>
       </label>
       <br/>
 
-      <label>ETH %<input class="form-control" type ="text" id ="percentETH" name="percentETH" required style="width: 80%; background-color: #181A1B; color: white;" placeholder="ETH %" disabled></label><br/>
+      <label>ETH %<input class="form-control" type ="text" id ="percentETH" name="percentETH" required style="width: 80%; background-color: #191B1C; color: white;" placeholder="ETH %" disabled></label><br/>
 
       </div>
 
@@ -194,7 +194,7 @@ const symbolToName = {"BML": "BitMix Ledger",
       erc20s.forEach(function(symbol){
 
         console.log( `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 80%;" placeholder="${symbol} %"></label><br/>`)
-        document.getElementById("percentContainer").innerHTML += `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 80%; background-color: #181A1B; color: white;" placeholder="${symbol} %"></label><br/>`
+        document.getElementById("percentContainer").innerHTML += `<label>${symbol} %<input class="form-control" type ="text" id ="percent${symbol}" name="percent${symbol}" required style="width: 80%; background-color: #191B1C; color: white;" placeholder="${symbol} %"></label><br/>`
         const image = `<img  src="./images/${symbol}.png" style="height: 30px; width: 30px; margin-left:10px;"/>`
 
         const balanceRow = `
